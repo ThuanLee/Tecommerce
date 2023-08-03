@@ -1,25 +1,30 @@
 import React, { useEffect, useState } from 'react'
-import axios from 'axios'
+import { Link } from 'react-router-dom'
+import { getProductList } from '../services/productService'
+
 
 const HomePage = () => {
-  const getProducts = async () => {
-    let response = await axios.get('/api/products/')
-    let data = await response.json()
-    setProducts(data)
-  }
+  const [productList, setProductList] = useState([])
 
-  const [products, setProducts] = useState([])
-
+  // Get product list from db and set to productList
   useEffect(() => {
-    getProducts()
+    const callAPI = async () => {
+      let data = await getProductList()
+      setProductList(data)
+    }
+    callAPI()
   }, [])
 
   return (
     <div>
-      <p>Home Page</p>
-      {products.map((product, index) => (
-        <div>{product.name}</div>
-      ))}
+      <h2>Home Page</h2>
+      <div>
+        {productList.map((product, index) => (
+          <Link to={`/product/${product.id}/`}>
+            <p>{product.name}</p>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

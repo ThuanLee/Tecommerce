@@ -22,4 +22,3 @@ class Product(models.Model):
 
     class Meta:
         ordering = ['-arrival_time']
-    

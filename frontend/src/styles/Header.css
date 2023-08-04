@@ -31,6 +31,12 @@
   color: var(--theme-color);
 }
 
+.item.cart {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
 .item.user {
   padding-right: 15px;
 }

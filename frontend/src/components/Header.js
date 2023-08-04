@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom"
 
 const Header = () => {
   const navigate = useNavigate()
+
   return (
     <nav className="navbar">
       <div className="logo" onClick={() => navigate("/")}>
@@ -18,6 +19,7 @@ const Header = () => {
       </div>
       
       <div className="item cart">
+        <p>{JSON.parse(localStorage.getItem('cart') || "[]").length}</p>
         <i className="fas fa-shopping-cart fa-lg"/>
       </div>
 

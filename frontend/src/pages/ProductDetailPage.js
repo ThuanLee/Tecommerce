@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import { useParams } from 'react-router-dom'
 import { getProduct } from '../services/productService'
+import '../styles/ProductDetailPage.css'
 
 const ProductDetailPage = () => {
   // Get id from URL
@@ -19,9 +20,8 @@ const ProductDetailPage = () => {
   }, [productId])
 
   return (
-    <div>
-      <h2>ProductDetailPage</h2>
-      <p>{product.name}</p>
+    <div className="product-detail">
+      <p className="font-weight-bold">{product.name}</p>
       <p>{product.description}</p>
       <p>{product.price}</p>
     </div>

@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-// Tạo một instance Axios với base URL mặc 
+// Tạo một instance Axios với base URL mặc định
 const instance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
 });

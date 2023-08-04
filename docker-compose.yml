@@ -4,8 +4,18 @@ services:
     image: tecommerce-backend:lastest
     build:
       context: ./backend
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.backend
     ports:
     - "8000:8000"
     volumes:
     - ./backend:/app
+
+  frontend:
+    image: tecommerce-frontend:lastest
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.frontend
+    ports:
+    - "3000:3000"
+    volumes:
+    - ./frontend:/app

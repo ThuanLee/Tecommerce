@@ -6,7 +6,7 @@ import ProductDetailPage from './pages/ProductDetailPage';
 
 function App() {
   return (
-    <div className="App">
+    <div className='app'>
       <HashRouter>
         <Header />
         <Routes>

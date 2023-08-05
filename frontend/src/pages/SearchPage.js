@@ -1,22 +1,24 @@
 import React, { useEffect, useState } from 'react'
 import ProductList from '../components/ProductList'
 import SideBar from '../components/SideBar'
-import { getCategoryList, getProductByCategory, getProductList } from '../services/productService'
-import '../styles/HomePage.css'
+import { searchProduct } from '../services/productService'
+import { getProductList, getProductByCategory } from '../services/productService'
+import '../styles/SearchPage.css'
 
-const HomePage = () => {
+export const SearchPage = () => {
+  // Get query string from url
+  let params = new URLSearchParams(window.location.search)
+  let query = params.get('query')
+
   const [productList, setProductList] = useState([])
 
-  // Get product list from db and set to productList
   useEffect(() => {
     const callAPI = async () => {
-      const productListData = await getProductList()
-      setProductList(productListData)
-      const categoryListData = await getCategoryList()
-      localStorage.setItem('categories', JSON.stringify(categoryListData))
+      let data = await searchProduct(query)
+      setProductList(data)
     }
     callAPI()
-  }, [])
+  }, [query])
 
   const filter = (e) => {
     const callAPI = async () => {
@@ -33,11 +35,16 @@ const HomePage = () => {
   }
 
   return (
-    <div className='homepage'>
+    <div className='search-page'>
       <SideBar filter={filter} />
-      <ProductList productList={productList} />
+      <div>
+        {query !== '' &&
+          <h3>Search term: <small>{query}</small></h3>
+        }
+        <ProductList productList={productList} />
+      </div>
     </div>
   )
 }
 
-export default HomePage
+export default SearchPage

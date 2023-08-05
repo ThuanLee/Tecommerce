@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import '../styles/Header.css'
 import { useNavigate } from "react-router-dom"
-import { CartContext } from '../contexts/CartContext'
+import { CartContext } from '../contexts/cartContext'
+import SearchBar from './SearchBar'
 
 const Header = () => {
   const navigate = useNavigate()
@@ -14,12 +15,7 @@ const Header = () => {
         TCOMMERCE
       </div>
 
-      <div className="item search right" tabindex="0">
-        <div className="search-group">
-          <input type="text"/>
-          <i className="fa-solid fa-magnifying-glass search-icon"/>
-        </div>
-      </div>
+      <SearchBar />
       
       <div className="item cart">
         <p>{context.cart.length}</p>

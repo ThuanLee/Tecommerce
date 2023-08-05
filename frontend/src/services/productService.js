@@ -16,4 +16,8 @@ const getCategoryList = async () => {
     return await axios.get('/api/categories/')
 }
 
-export {getProductList, getProduct, getCategoryList, getProductByCategory}
+const searchProduct = async(query) => {
+    return await axios.post('/api/search/', {'query': query})
+}
+
+export {getProductList, getProduct, getCategoryList, getProductByCategory, searchProduct}

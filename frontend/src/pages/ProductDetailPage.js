@@ -2,7 +2,7 @@ import React, {useState, useEffect, useContext} from 'react'
 import { useParams } from 'react-router-dom'
 import { getProduct } from '../services/productService'
 import '../styles/ProductDetailPage.css'
-import { CartContext } from '../contexts/CartContext'
+import { CartContext } from '../contexts/cartContext'
 import { ToastContainer, toast, Flip } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
 

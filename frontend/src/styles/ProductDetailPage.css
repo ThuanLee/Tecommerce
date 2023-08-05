@@ -1,4 +1,4 @@
-.container {
+.product-detail {
     padding: 100px;
     display: flex;
     flex-direction: column;
@@ -11,7 +11,7 @@
     margin-bottom: 50px;
 }
 
-.container .add-btn {
+.product-detail .add-btn {
     display: flex;
     width: fit-content;
     flex-direction: row;
@@ -22,10 +22,11 @@
     color: white;
 }
 
-.container .add-btn:hover {
+.product-detail .add-btn:hover {
     cursor: pointer;
 }
 
-.container .add-btn p {
+.product-detail .add-btn p {
     padding-right: 10px;
+    user-select: none;
 }

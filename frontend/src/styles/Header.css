@@ -11,7 +11,10 @@
   box-sizing: border-box;
 }
 
-.navbar {
+.header {
+  width: 100%;
+  height: 10vh;
+
   display: flex;
   box-shadow: 0 0 2px 0 grey;
   align-items: center;
@@ -45,14 +48,15 @@
   margin: 0 0 0 auto;
 }
 
-.navbar .logo {
+.header .logo {
   font-size: 1.5em;
   align-items: center;
   display: flex;
   padding-left: 15px;
+  user-select: none;
 }
 
-.navbar .logo:hover {
+.header .logo:hover {
   cursor: pointer;
 }
 

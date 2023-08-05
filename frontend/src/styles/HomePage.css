@@ -1,5 +1,22 @@
 @import url("https://fonts.googleapis.com/css2?family=Istok+Web:wght@400;700&display=swap");
 
+.homepage {
+  display: flex;
+  flex-direction: row;
+}
+
+.filter {
+  height: 90vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-element h3 {
+  display: inline;
+  padding-left: 10px;
+}
+
 .product-list {
     display: flex;
     flex-direction: row;

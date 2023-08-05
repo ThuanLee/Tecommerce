@@ -9,10 +9,10 @@ function App() {
     <div className='app'>
       <HashRouter>
         <Header />
-        <Routes>
-          <Route path='/' element={<HomePage />} />
-          <Route path='/product/:id/' element={<ProductDetailPage />} />
-        </Routes>
+          <Routes>
+            <Route path='/' element={<HomePage />} />
+            <Route path='/product/:id/' element={<ProductDetailPage />} />
+          </Routes>
       </HashRouter>
     </div>
   );

@@ -1,11 +1,19 @@
 import axios from "../utils/axious";
 
 const getProductList = async () => {
-    return await axios.get('/api/products/')
+    return await axios.get('/api/products/all/')
 }
 
-const getProduct = async(id) => {
-    return await axios.get(`/api/product/${id}/`)
+const getProduct = async(productId) => {
+    return await axios.get(`/api/product/${productId}/`)
 }
 
-export {getProductList, getProduct}
+const getProductByCategory = async(categoryId) => {
+    return await axios.get(`/api/products/${categoryId}/`)
+}
+
+const getCategoryList = async () => {
+    return await axios.get('/api/categories/')
+}
+
+export {getProductList, getProduct, getCategoryList, getProductByCategory}

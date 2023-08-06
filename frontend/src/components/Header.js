@@ -3,6 +3,9 @@ import '../styles/Header.css'
 import { useNavigate } from "react-router-dom"
 import { CartContext } from '../contexts/cartContext'
 import SearchBar from './SearchBar'
+import Badge from '@mui/material/Badge';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PersonIcon from '@mui/icons-material/Person';
 
 const Header = () => {
   const navigate = useNavigate()
@@ -18,12 +21,15 @@ const Header = () => {
       <SearchBar />
       
       <div className="item cart" onClick={() => navigate("/cart/")}>
-        <p>{context.cart.length}</p>
-        <i className="fas fa-shopping-cart fa-lg"/>
+      <Badge color="secondary" badgeContent={context.cart.length}
+        max={99} anchorOrigin={{vertical: 'top', horizontal: 'right',}}>
+        <ShoppingCartIcon />
+      </Badge>
+       
       </div>
 
       <div className="item user">
-        <i className="fa-regular fa-user fa-lg"></i>
+        <PersonIcon sx={{ fontSize: 26 }}/>
       </div>
     </nav>
   )

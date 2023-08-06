@@ -12,8 +12,9 @@ const ProductDetailPage = () => {
   let productId = params.id
 
   // Toast message
-  const successToast= () => {
-    toast('🦄 Add product to cart successful!!', {
+  const successToast= (productName) => {
+    let message = '🦄 Thêm "' + productName + '" vào giỏ hàng!!'
+    toast(message, {
       position: "bottom-right",
       autoClose: 1500,
       hideProgressBar: true,
@@ -41,7 +42,6 @@ const ProductDetailPage = () => {
   }, [productId])
 
   const addToCart = () => {
-    // Get cart items from local storage
     let cart = JSON.parse(localStorage.getItem('cart') || "[]")
 
     const existsItem = cart.filter((cart_item) => cart_item.id === product.id)
@@ -56,7 +56,7 @@ const ProductDetailPage = () => {
     localStorage.setItem('cart', JSON.stringify(cart))
 
     //Toast
-    successToast()
+    successToast(product.name)
   }
 
   return (

@@ -13,6 +13,7 @@
 
 .product-detail .add-btn {
     display: flex;
+    align-content: center;
     width: fit-content;
     flex-direction: row;
     border-radius: 40px;
@@ -27,6 +28,7 @@
 }
 
 .product-detail .add-btn p {
+    margin: 0;
     padding-right: 10px;
     user-select: none;
 }

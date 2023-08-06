@@ -17,7 +17,7 @@ const Header = () => {
 
       <SearchBar />
       
-      <div className="item cart">
+      <div className="item cart" onClick={() => navigate("/cart/")}>
         <p>{context.cart.length}</p>
         <i className="fas fa-shopping-cart fa-lg"/>
       </div>

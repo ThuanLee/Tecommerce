@@ -1,4 +1,16 @@
 .search-page {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
+}
+
+.filter {
+  height: 90vh;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.category-element h3 {
+  display: inline;
+  padding-left: 10px;
 }

@@ -6,7 +6,7 @@ const Sidebar = ({filter}) => {
   return (
     <div className='sidebar'>
       <div className='filter'>
-        <h2>Danh mục sản phẩm</h2>
+        <h2>Bộ lọc</h2>
         <div className='category-element'>
           <input type="radio" id="0" name="category_list" value="all" onChange={filter}/>
           <label for="0"><h3>All</h3></label>

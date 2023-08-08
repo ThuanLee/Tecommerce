@@ -28,7 +28,7 @@ const Header = () => {
        
       </div>
 
-      <div className="item user">
+      <div className="item user" onClick={() => navigate("/signup/")}>
         <PersonIcon sx={{ fontSize: 26 }}/>
       </div>
     </nav>

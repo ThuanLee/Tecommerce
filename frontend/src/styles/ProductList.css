@@ -1,24 +1,17 @@
 .product-list {
-  display: flex;
-  flex-direction: row;
+  padding: 50px;
 }
 
 .product-list a {
   text-decoration: none;
-  height: fit-content;
-  margin: 30px;
+  padding: 0 20px 0px 20px;
+  margin-bottom: 40px;
 }
 
 .product-card {
+  height: 350px;
   font-family: "Istok Web", sans-serif;
-  display: flex;
-  flex-direction: column;
-  min-height: 20vh;
   background-color: #4f3cce;
-  position: relative;
-  width: 250px;
-  height: 300px;
-  overflow: hidden;
 }
 
 .product-card .imgBox {
@@ -27,19 +20,27 @@
   justify-content: center;
   align-items: center;
   z-index: 1;
+  height: fit-content;
 }
 
 .product-card .contentBox {
-  width:60%;
-  height: 50%;
-  padding: 20px;
+  width:220px;
+  height: 250px;
+  padding: 20px 0px 0px 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
   display: flex;
   flex-direction: column;
   z-index: 2;
 }
 
 .product-card .contentBox h3 {
-  font-size: 18px;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  margin: 0;
+  font-size: 24px;
   color: white;
   font-weight: 500;
   text-transform: uppercase;
@@ -52,12 +53,14 @@
   color: white;
   font-weight: 700;
   letter-spacing: 1px;
+  margin-top: auto;
+  margin-bottom: 30px;
 }
 
 .product-card .buy {
   position: relative;
   width: 45%;
-  margin: auto 15px 15px auto;
+  margin: auto 15px 10px auto;
   border-radius: 30px;
   text-align: center;
   top: 50px;
@@ -71,6 +74,6 @@
 }
 
 .product-card:hover .buy {
-  top: 0;
+  top: 40px;
   opacity: 1;
 }

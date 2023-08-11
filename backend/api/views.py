@@ -1,9 +1,10 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
-from .models import Product, Category
+from .models import Product, Category, User
 from .serializer import ProductSerializer, CategorySerializer
 from django.db.models import Q
+from hashlib import sha256
 
 @api_view(['GET'])
 def getProductList(request):
@@ -31,3 +32,38 @@ def searchProduct(request):
     products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
     serializer = ProductSerializer(products, many=True)
     return Response(serializer.data)
+
+@api_view(['POST'])
+def signup(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+    email = request.data.get('email')
+
+    if (User.objects.filter(username=username)):
+        return Response("username exists")
+    
+    if (User.objects.filter(email=email)):
+        return Response("email exists")
+
+    # encode password
+    password = sha256(password.encode()).hexdigest()
+    newAccount = User.objects.create(username=username, password=password, email=email)
+    
+    return Response("signup success")
+    
+
+@api_view(['POST'])
+def login(request):
+    username = request.data.get('username')
+    password = request.data.get('password')
+
+    # encode password
+    password = sha256(password.encode()).hexdigest()
+
+    if (User.objects.filter(username=username)):
+        if (User.objects.filter(password=password)):
+            return Response("login success")
+        else:
+            return Response("password not match")
+    else:
+        return Response("username not match")

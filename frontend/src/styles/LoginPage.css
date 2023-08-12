@@ -59,11 +59,11 @@ form .input-box input{
 .input-box input:valid{
   border-color: #4070f4;
 }
-form .policy{
+form .remember-password{
   display: flex;
   align-items: center;
 }
-form .policy h3{
+form .remember-password h3{
   margin: 0 10px;
 }
 form h3{

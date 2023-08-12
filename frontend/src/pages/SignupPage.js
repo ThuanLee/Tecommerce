@@ -1,39 +1,60 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import '../styles/SignupPage.css'
 import { signup } from '../services/userService'
+import { ToastContainer } from 'react-toastify'
+import { toast } from 'react-toastify'
+import { Flip } from 'react-toastify'
 
 const SignupPage = () => {
 
+  const navigate = useNavigate()
+
+  const signupToast = (message) => {
+      toast.error(message, {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      transition: Flip,
+      theme: "light",
+    });
+  }
+
   const handleSubmit = async(e) => {
     e.preventDefault()
-    let username = e.target.username.value
-    let email = e.target.email.value
-    let password = e.target.password.value
-    let repassword = e.target.repassword.value
+    const username = e.target.username.value
+    const email = e.target.email.value
+    const password = e.target.password.value
+    const repassword = e.target.repassword.value
 
     if (username !== 'admin' && username.length < 8) {
-      console.log('ngan qua')
-      return
-    }
-    if (password !== repassword) {
-      console.log('mat khau khong trung khop')
+      signupToast("Tên đăng nhập phải có ít nhất 8 ký tự")
       return
     }
 
-    let response = await signup(username, email, password)
+    if (password !== repassword) {
+      signupToast('Mật khẩu nhập lại không trùng khớp')
+      return
+    }
+
+    const response = await signup(username, email, password)
     if (response === "username exists") {
-      console.log('ten nguoi dung da ton tai')
+      signupToast('Tên đăng nhập đã được sử dụng')
     } else if (response === "email exists") {
-      console.log('email da duoc su dung')
+      signupToast('Email này đã được đăng ký bởi một tài khoản khác')
     } else if (response === "signup success") {
-      console.log('dang ky thanh cong')
+      signupToast('Đăng ký thành công')
+      navigate('/login/')
     }
   }
 
-
   return (
     <div class="signup-page">
+      <ToastContainer newestOnTop={true}/>
       <h2>Đăng ký</h2>
       <form onSubmit={handleSubmit}>
         <div class="input-box">
@@ -49,7 +70,7 @@ const SignupPage = () => {
           <input type="password" placeholder="Nhập lại mật khẩu" name="repassword" required/>
         </div>
         <div class="policy">
-          <input type="checkbox"/>
+          <input type="checkbox" required/>
           <h3>Tôi chấp nhận mọi điều khoản và hợp đồng</h3>
         </div>
         <div class="input-box button">

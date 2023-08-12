@@ -1,8 +1,8 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
-from .models import Product, Category, User
-from .serializer import ProductSerializer, CategorySerializer
+from .models import Category, Product, User
+from .serializer import CategorySerializer, ProductSerializer, UserSerializer
 from django.db.models import Q
 from hashlib import sha256
 
@@ -62,7 +62,8 @@ def login(request):
 
     if (User.objects.filter(username=username)):
         if (User.objects.filter(password=password)):
-            return Response("login success")
+            user = User.objects.get(username=username, password=password)
+            return Response({'id': str(user.id), 'token': '123'})
         else:
             return Response("password not match")
     else:

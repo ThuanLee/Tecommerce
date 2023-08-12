@@ -5,4 +5,9 @@ const signup = async(username, email, password) => {
     return await axios.post('/api/signup/', data)
 }
 
-export {signup}
+const login = async(username, password) => {
+    let data = {"username": username, "password": password}
+    return await axios.post('/api/login/', data)
+}
+
+export {signup, login}

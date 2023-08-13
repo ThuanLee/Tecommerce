@@ -1,10 +1,11 @@
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
-from django.shortcuts import get_object_or_404
-from .models import Category, Product, User
-from .serializer import CategorySerializer, ProductSerializer, UserSerializer
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAuthenticated
+from .models import Category, Product, UserProfile
+from .serializer import CategorySerializer, ProductSerializer, UserProfileSerializer
 from django.db.models import Q
-from hashlib import sha256
+from django.contrib.auth.models import User
+from rest_framework_simplejwt.tokens import RefreshToken
 
 @api_view(['GET'])
 def getProductList(request):
@@ -13,7 +14,7 @@ def getProductList(request):
 
 @api_view(['GET'])
 def getProduct(request, productId):
-    serializer = ProductSerializer(get_object_or_404(Product, pk=productId), many=False)
+    serializer = ProductSerializer(Product.objects.get(pk=productId), many=False)
     return Response(serializer.data)
 
 @api_view(['GET'])
@@ -45,9 +46,8 @@ def signup(request):
     if (User.objects.filter(email=email)):
         return Response("email exists")
 
-    # encode password
-    password = sha256(password.encode()).hexdigest()
-    newAccount = User.objects.create(username=username, password=password, email=email)
+    user = User.objects.create_user(username=username, password=password, email=email)
+    UserProfile.objects.create(pk=user.id)
     
     return Response("signup success")
     
@@ -57,14 +57,29 @@ def login(request):
     username = request.data.get('username')
     password = request.data.get('password')
 
-    # encode password
-    password = sha256(password.encode()).hexdigest()
-
     if (User.objects.filter(username=username)):
-        if (User.objects.filter(password=password)):
-            user = User.objects.get(username=username, password=password)
-            return Response({'id': str(user.id), 'token': '123'})
+        user = User.objects.get(username=username)
+        if (user.check_password(password)):
+            refresh = RefreshToken.for_user(user)
+            token = {
+                'refresh': str(refresh),
+                'access': str(refresh.access_token)
+            }
+            return Response(token)
         else:
             return Response("password not match")
     else:
         return Response("username not match")
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getProfile(request, userId):
+    userProfile = UserProfile.objects.get(pk=userId)
+    serializer = UserProfileSerializer(userProfile, many=False)
+    
+    # Add email field to return dict
+    email = User.objects.get(pk=userId).email
+    data = {"email": email}
+    data.update(serializer.data)
+
+    return Response(data)

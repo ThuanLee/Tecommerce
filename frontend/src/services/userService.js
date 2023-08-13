@@ -10,4 +10,8 @@ const login = async(username, password) => {
     return await axios.post('/api/login/', data)
 }
 
-export {signup, login}
+const getProfile = async(userId) => {
+    return await axios.get(`/api/profile/${userId}/`)
+}
+
+export {signup, login, getProfile}

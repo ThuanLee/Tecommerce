@@ -37,7 +37,7 @@ const LoginPage = () => {
     } else if (response === "password not match") {
       loginToast("Mật khẩu không đúng")
     } else {
-      localStorage.setItem('user', JSON.stringify(response))
+      localStorage.setItem('token', JSON.stringify(response))
       context.setLogged(true)
       navigate('/profile/')
     }

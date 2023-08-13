@@ -31,7 +31,7 @@ const SignupPage = () => {
     const password = e.target.password.value
     const repassword = e.target.repassword.value
 
-    if (username !== 'admin' && username.length < 8) {
+    if (username.length < 8) {
       signupToast("Tên đăng nhập phải có ít nhất 8 ký tự")
       return
     }

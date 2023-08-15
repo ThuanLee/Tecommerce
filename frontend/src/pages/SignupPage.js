@@ -10,8 +10,22 @@ const SignupPage = () => {
 
   const navigate = useNavigate()
 
-  const signupToast = (message) => {
-      toast.error(message, {
+  const errorSignupToast = (message) => {
+    toast.error(message, {
+      position: "bottom-right",
+      autoClose: 2000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      transition: Flip,
+      theme: "light",
+    });
+  }
+
+  const successSignupToast = (message) => {
+    toast.success(message, {
       position: "bottom-right",
       autoClose: 2000,
       hideProgressBar: true,
@@ -32,23 +46,23 @@ const SignupPage = () => {
     const repassword = e.target.repassword.value
 
     if (username.length < 8) {
-      signupToast("Tên đăng nhập phải có ít nhất 8 ký tự")
+      errorSignupToast("Tên đăng nhập phải có ít nhất 8 ký tự")
       return
     }
 
     if (password !== repassword) {
-      signupToast('Mật khẩu nhập lại không trùng khớp')
+      errorSignupToast('Mật khẩu nhập lại không trùng khớp')
       return
     }
 
     const response = await signup(username, email, password)
     if (response === "username exists") {
-      signupToast('Tên đăng nhập đã được sử dụng')
+      errorSignupToast('Tên đăng nhập đã được sử dụng')
     } else if (response === "email exists") {
-      signupToast('Email này đã được đăng ký bởi một tài khoản khác')
+      errorSignupToast('Email này đã được đăng ký bởi một tài khoản khác')
     } else if (response === "signup success") {
-      signupToast('Đăng ký thành công')
-      navigate('/login/')
+      setTimeout(() => navigate('/login/'), 3000)
+      successSignupToast('Đăng ký thành công')
     }
   }
 
@@ -56,7 +70,7 @@ const SignupPage = () => {
     <div class="signup-page">
       <ToastContainer newestOnTop={true}/>
       <h2>Đăng ký</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off" spellCheck={false}>
         <div class="input-box">
           <input type="text" placeholder="Tên đăng nhập" name="username" required/>
         </div>

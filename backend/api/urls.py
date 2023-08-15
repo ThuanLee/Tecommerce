@@ -11,5 +11,5 @@ urlpatterns = [
     path('search/', views.searchProduct, name='search'),
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
-    path('profile/<int:userId>/', views.getProfile, name='getProfile')
+    path('profile/<int:userId>/', views.ProfileDetail.as_view(), name='ProfileDetail')
 ]

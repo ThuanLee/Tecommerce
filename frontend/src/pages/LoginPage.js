@@ -47,7 +47,7 @@ const LoginPage = () => {
     <div class="login-page">
       <ToastContainer newestOnTop={true}/>
       <h2>Đăng nhập</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} autoComplete="off" spellCheck={false}>
         <div class="input-box">
           <input type="text" placeholder="Tên đăng nhập" name="username" required/>
         </div>

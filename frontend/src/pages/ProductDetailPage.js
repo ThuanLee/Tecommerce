@@ -44,12 +44,14 @@ const ProductDetailPage = () => {
   const addToCart = () => {
     let cart = JSON.parse(localStorage.getItem('cart') || "[]")
 
+    let buyQuantity = parseInt(document.getElementById('buy-quantity').value)
     const existsItem = cart.filter((cart_item) => cart_item.id === product.id)
-    
+
+
     if (existsItem.length) {
-      existsItem[0].quantity = existsItem[0].quantity + 1
+      existsItem[0].quantity = existsItem[0].quantity + buyQuantity
     } else {
-      cart.push({...product, quantity: 1})
+      cart.push({...product, quantity: buyQuantity})
     }
 
     context.setCart(cart)
@@ -66,9 +68,10 @@ const ProductDetailPage = () => {
         <p>{product.description}</p>
         <p>{product.price}</p>
       </div>
-      <div className="add-btn" onClick={addToCart}>
-        <p>Thêm vào giỏ hàng</p>
-        <i className="fa-solid fa-lg fa-plus"></i>
+      <div className="add-btn">
+        <h4>Thêm vào giỏ hàng</h4>
+        <input id='buy-quantity' type='number' defaultValue={1}></input>
+        <i className="fa-solid fa-2x fa-plus" onClick={addToCart}></i>
       </div>
       <ToastContainer newestOnTop={true}/>
     </div>

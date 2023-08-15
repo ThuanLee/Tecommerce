@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+import jwtDecode from 'jwt-decode';
 import React, { createContext, useState } from 'react'
 import { useContext } from 'react';
 
@@ -7,7 +9,16 @@ export const useMyContext = () => useContext(UserContext);
 
 // Provide Context
 const UserProvider = ({ children }) => {
-  const [logged, setLogged] = useState(JSON.parse(localStorage.getItem('token') ? true : false));
+  let stillLogged = false
+  let token = JSON.parse(localStorage.getItem('token'))
+  if (token) {
+    const refresh = jwtDecode(token.refresh)
+    const isExpired = dayjs.unix(refresh.exp).diff(dayjs()) < 1
+    if (!isExpired) {
+      stillLogged = true
+    }
+  }
+  const [logged, setLogged] = useState(stillLogged);
 
   return (
     <UserContext.Provider value={{ logged, setLogged }}>

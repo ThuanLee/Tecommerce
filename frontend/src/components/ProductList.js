@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import '../styles/ProductList.css'
 
 const ProductList = ({productList}) => {
+
   return (
     <div className="product-list container">
       <div className='row'>

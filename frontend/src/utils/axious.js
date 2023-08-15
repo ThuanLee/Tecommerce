@@ -40,8 +40,8 @@ instance.interceptors.request.use(async request => {
       })
       localStorage.setItem('token', JSON.stringify(response.data))
     } catch (error) {
+      // If refresh token expired, remove token in local storage
       if (error.response.data.detail === "Token is invalid or expired") {
-        alert("Phiên đăng nhập đã hết hạn")
         localStorage.removeItem('token')
         return request
       }
@@ -50,6 +50,7 @@ instance.interceptors.request.use(async request => {
 
   token = JSON.parse(localStorage.getItem('token'))
   request.headers.Authorization = `Bearer ${token.access}`
+  
   return request
 })
 

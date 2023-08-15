@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from .models import Category, Product, UserProfile
 from .serializer import CategorySerializer, ProductSerializer, UserProfileSerializer
@@ -71,15 +72,49 @@ def login(request):
     else:
         return Response("username not match")
 
-@api_view(['GET'])
-@permission_classes([IsAuthenticated])
-def getProfile(request, userId):
-    userProfile = UserProfile.objects.get(pk=userId)
-    serializer = UserProfileSerializer(userProfile, many=False)
-    
-    # Add email field to return dict
-    email = User.objects.get(pk=userId).email
-    data = {"email": email}
-    data.update(serializer.data)
 
-    return Response(data)
+@permission_classes([IsAuthenticated])
+class ProfileDetail(APIView):
+    
+    def get(self, request, userId):
+        user = User.objects.get(pk=userId)
+        userProfile = UserProfile.objects.get(pk=userId)
+        serializer = UserProfileSerializer(userProfile, many=False)
+        
+        # Add email field to return dict
+        data = {"email": user.email}
+        data.update(serializer.data)
+
+        return Response(data)
+
+    def put(self, request, userId):
+        newFullname = request.data.get("fullname")
+        newEmail = request.data.get("email")
+        newPhoneNumber = request.data.get("phone_number")
+        newAddress = request.data.get("address")
+
+        user = User.objects.get(pk=userId)
+        userProfile = UserProfile.objects.get(pk=userId)
+
+        # Change email
+        if (user.email != newEmail):
+            if (User.objects.filter(email=newEmail)):
+                return Response("email exists")
+            else:
+                user.email = newEmail
+                user.save()
+
+        # Change profile
+        userProfile.fullname = newFullname
+        userProfile.phone_number = newPhoneNumber
+        userProfile.address = newAddress
+        userProfile.save()
+
+        serializer = UserProfileSerializer(userProfile, many=False)
+        data = {"email": user.email}
+        data.update(serializer.data)
+
+        return Response(data)
+
+        
+        

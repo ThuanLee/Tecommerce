@@ -14,4 +14,8 @@ const getProfile = async(userId) => {
     return await axios.get(`/api/profile/${userId}/`)
 }
 
-export {signup, login, getProfile}
+const updateProfile = async(userId, data) => {
+    return await axios.put(`/api/profile/${userId}/`, data)
+}
+
+export {signup, login, getProfile, updateProfile}

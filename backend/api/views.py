@@ -2,8 +2,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
-from .models import Category, Product, UserProfile
-from .serializer import CategorySerializer, ProductSerializer, UserProfileSerializer
+from .models import *
+from .serializer import *
 from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -49,6 +49,7 @@ def signup(request):
 
     user = User.objects.create_user(username=username, password=password, email=email)
     UserProfile.objects.create(pk=user.id)
+    Cart.objects.create(pk=user.id)
     
     return Response("signup success")
     
@@ -116,5 +117,56 @@ class ProfileDetail(APIView):
 
         return Response(data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getCart(request, userId):
+    cart = Cart.objects.get(pk=userId)
+    serializer = CartSerializer(cart, many=False)
+    return Response(serializer.data)
+
+
+@permission_classes([IsAuthenticated])
+class CartItems(APIView):
+    
+    def get(self, request, userId):
+        cart = Cart.objects.get(pk=userId)
+        cartItems = cart.items.all()
+        serializer = CartItemSerializer(cartItems, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, userId):
+        productId = request.data.get("productId")
+        quantity = request.data.get("quantity")
         
+        try:
+            cart = Cart.objects.get(pk=userId)
+            cartItem = cart.items.get(product=productId)
+            cartItem.quantity += quantity
+            cartItem.save()
+        except:
+            CartItem.objects.create(cart_id=userId, product_id=productId, quantity=quantity)
+
+        serializer = CartSerializer(cart, many=False)
+        return Response(serializer.data)
+
+
+@api_view(['DELETE'])
+@permission_classes([IsAuthenticated])
+def deleteCartItem(request, cartItemId):
+    cartItem = CartItem.objects.get(pk=cartItemId)
+    userId = cartItem.cart.id
+    cartItem.delete()
+    cart = Cart.objects.get(pk=userId)
+    cartItems = cart.items.all()
+    cartSerializer = CartSerializer(cart, many=False)
+    cartItemSerializer = CartItemSerializer(cartItems, many=True)
+    data = {
+        "cart": cartSerializer.data,
+        "cartItems": cartItemSerializer.data
+    }
+    return Response(data)
         
+
+
+    

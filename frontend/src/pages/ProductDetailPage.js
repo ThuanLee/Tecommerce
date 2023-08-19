@@ -5,6 +5,9 @@ import '../styles/ProductDetailPage.css'
 import { CartContext } from '../contexts/cartContext'
 import { ToastContainer, toast, Flip } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { addCartItem } from '../services/cartSevice'
+import jwt_decode from 'jwt-decode'
+
 
 const ProductDetailPage = () => {
   // Get id from URL
@@ -12,9 +15,8 @@ const ProductDetailPage = () => {
   let productId = params.id
 
   // Toast message
-  const successToast= (productName) => {
-    let message = '🦄 Thêm "' + productName + '" vào giỏ hàng!!'
-    toast(message, {
+  const successToast= (message) => {
+    toast.success(message, {
       position: "bottom-right",
       autoClose: 1500,
       hideProgressBar: true,
@@ -22,13 +24,25 @@ const ProductDetailPage = () => {
       pauseOnHover: true,
       draggable: true,
       progress: 0,
-      transition: Flip,
+      theme: "light",
+    });
+  }
+
+  const loginFirst = () => {
+    toast.error("Hãy đăng nhập trước", {
+      position: "bottom-right",
+      autoClose: 2500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
       theme: "light",
     });
   }
 
   // Use to sync data with header
-  const context = useContext(CartContext)
+  const cartContext = useContext(CartContext)
 
   const [product, setProduct] = useState([])
 
@@ -41,32 +55,29 @@ const ProductDetailPage = () => {
     callAPI()
   }, [productId])
 
-  const addToCart = () => {
-    let cart = JSON.parse(localStorage.getItem('cart') || "[]")
+  const addToCart = async () => {
+    try {
+      let quantity = parseInt(document.getElementById('buy-quantity').value)
+      const token = JSON.parse(localStorage.getItem('token'))
+      const userId = jwt_decode(token.access).user_id
 
-    let buyQuantity = parseInt(document.getElementById('buy-quantity').value)
-    const existsItem = cart.filter((cart_item) => cart_item.id === product.id)
+      let response = await addCartItem(userId, productId, quantity)
+      cartContext.setCart(response)
+      successToast('🦄 Thêm "' + product.name + '" vào giỏ hàng!!')
 
-
-    if (existsItem.length) {
-      existsItem[0].quantity = existsItem[0].quantity + buyQuantity
-    } else {
-      cart.push({...product, quantity: buyQuantity})
+    } catch (error) {
+      cartContext.setCart([])
+      loginFirst()
     }
-
-    context.setCart(cart)
-    localStorage.setItem('cart', JSON.stringify(cart))
-
-    //Toast
-    successToast(product.name)
   }
 
   return (
     <div className="product-detail">
       <div className="detail">
-        <p>{product.name}</p>
-        <p>{product.description}</p>
-        <p>{product.price}</p>
+        <p>Tên sản phẩm: {product.name}</p>
+        <p>Mô tả: {product.description}</p>
+        <p>Giá: {product.price}</p>
+        <p>Tồn kho: {product.quantity_in_stock}</p>
       </div>
       <div className="add-btn">
         <h4>Thêm vào giỏ hàng</h4>

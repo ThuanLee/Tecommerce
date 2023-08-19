@@ -12,7 +12,7 @@ const CartPage = () => {
     <div className='cart-page'>
       <h1>Giỏ hàng của bạn</h1>
       {
-        context.cart.length === 0 ? <p>Bạn chưa chọn sản phẩm nào</p> : <CartItems />
+        context.cart.quantity_in_cart === 0 ? <p>Bạn chưa chọn sản phẩm nào</p> : <CartItems />
       }   
       <ToastContainer newestOnTop={true}/>
     </div>

@@ -1,13 +1,15 @@
-import React from 'react'
-import { useContext } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
-import { toast, Flip } from 'react-toastify'
+import { toast } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { deleteCartItem, getCartItems } from '../services/cartSevice'
+import jwt_decode from 'jwt-decode'
 
 const CartItems = () => {
-  const context = useContext(CartContext)
 
-  const shipFee = 10000
+  const cartContext = useContext(CartContext)
+  const navigate = useNavigate()
 
   const successToast= (productName) => {
     let message = '🦄 Xóa "' + productName + '" khỏi giỏ hàng!!'
@@ -19,20 +21,29 @@ const CartItems = () => {
       pauseOnHover: true,
       draggable: true,
       progress: 0,
-      transition: Flip,
       theme: "light",
     });
   }
 
-  const total = () => {
-    let t = 0
-    for (let cartItem of context.cart) {
-      t += cartItem.quantity * cartItem.price
+  const [cartItems, setCartItems] = useState([])
+
+  useEffect(() => {
+    const callAPI = async () => {
+      try {
+        const token = JSON.parse(localStorage.getItem('token'))
+        const userId = jwt_decode(token.access).user_id
+        const data = await getCartItems(userId)
+        setCartItems(data)
+      } catch (error) {
+        cartContext.setCart([])
+        navigate('/')
+      }
     }
-    return t
-  }
+    callAPI()
+  }, [])
 
   const moneyFormat = (money) => {
+    money = Math.round(money)
     if (money < 1000) return (<small>{money}</small>)
     money = money.toString()
     let formattedMoney = ""
@@ -50,23 +61,18 @@ const CartItems = () => {
     )
   }
 
-  const removeCartItem = (cartItem) => {
-    let cart = JSON.parse(localStorage.getItem('cart') || "[]")
-
-    let index = -1
-    for (let i in cart) {
-      if (cart[i].id === cartItem.id) {
-        index = i
-        break
-      }
+  const removeCartItem = async (cartItem) => {
+    try {
+      const response = await deleteCartItem(cartItem.id)
+      cartContext.setCart(response.cart)
+      setCartItems(response.cartItems)
+      successToast(cartItem.product.name)
+    } catch (error) {
+      cartContext.setCart([])
+      navigate('/')
     }
-    cart.splice(index, 1)
-
-    context.setCart(cart)
-    localStorage.setItem('cart', JSON.stringify(cart))
-
-    successToast(cartItem.name)
   }
+
 
   return (
     <div className="shopping-cart">
@@ -80,24 +86,24 @@ const CartItems = () => {
         <label className="product-line-price">Tổng</label>
       </div>
 
-      {context.cart.map((cartItem, index) => (
+      {cartItems.map((cartItem, index) => (
 
         <div className="product">
           <div className="product-image">
-            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg"/>
+            <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" alt='sample'/>
           </div>
           <div className="product-details">
-            <div className="product-title">{cartItem.name}</div>
-            <p className="product-description">{cartItem.description}</p>
+            <div className="product-title">{cartItem.product.name}</div>
+            <p className="product-description">{cartItem.product.description}</p>
           </div>
-          <div className="product-price">{moneyFormat(cartItem.price)}</div>
+          <div className="product-price">{moneyFormat(cartItem.product.price)}</div>
           <div className="product-quantity">{cartItem.quantity}</div>
           <div className="product-removal">
             <button className="remove-product" onClick={() => removeCartItem(cartItem)}>
               Xóa
             </button>
           </div>
-          <div className="product-line-price">{moneyFormat(cartItem.price * cartItem.quantity)}</div>
+          <div className="product-line-price">{moneyFormat(cartItem.total)}</div>
         </div>
 
       ))}
@@ -105,15 +111,15 @@ const CartItems = () => {
       <div className="totals">
         <div className="totals-item">
           <label>Tạm tính</label>
-          <div className="totals-value" id="cart-subtotal">{moneyFormat(total())}</div>
+          <div className="totals-value" id="cart-subtotal">{moneyFormat(cartContext.cart.grand_total)}</div>
         </div>
         <div className="totals-item">
           <label>Phí vận chuyển</label>
-          <div className="totals-value" id="cart-shipping">{moneyFormat(shipFee)}</div>
+          <div className="totals-value" id="cart-shipping">{moneyFormat(cartContext.cart.grand_total * 0.1)}</div>
         </div>
         <div className="totals-item totals-item-total">
           <label>Tổng cộng</label>
-          <div className="totals-value" id="cart-total">{moneyFormat(total() + shipFee)}</div>
+          <div className="totals-value" id="cart-total">{moneyFormat(cartContext.cart.grand_total * 1.1)}</div>
         </div>
       </div>
 

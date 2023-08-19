@@ -6,11 +6,16 @@ import { toast } from 'react-toastify'
 import { Flip } from 'react-toastify'
 import { login } from '../services/userService'
 import { UserContext } from '../contexts/userContext'
+import { CartContext } from '../contexts/cartContext'
+import { getCart } from '../services/cartSevice';
+import jwt_decode from 'jwt-decode';
+
 
 const LoginPage = () => {
 
   const navigate = useNavigate()
-  const context = useContext(UserContext)
+  const userContext = useContext(UserContext)
+  const cartContext = useContext(CartContext)
 
   const loginToast = (message) => {
       toast.error(message, {
@@ -32,13 +37,16 @@ const LoginPage = () => {
     const password = e.target.password.value
 
     const response = await login(username, password)
+
     if (response === "username not match") {
       loginToast("Tên đăng nhập không đúng")
     } else if (response === "password not match") {
       loginToast("Mật khẩu không đúng")
     } else {
       localStorage.setItem('token', JSON.stringify(response))
-      context.setLogged(true)
+      const userId = jwt_decode(response.access).user_id
+      userContext.setLogged(userId)
+      cartContext.setCart(await getCart(userId))
       navigate('/profile/')
     }
   }

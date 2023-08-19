@@ -6,13 +6,27 @@ import SearchBar from './SearchBar'
 import Badge from '@mui/material/Badge';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PersonIcon from '@mui/icons-material/Person';
-import { UserContext } from '../contexts/userContext'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { checkLogged } from '../utils/checkLogged'
 
 const Header = () => {
 
   const navigate = useNavigate()
   const cartContext = useContext(CartContext)
-  const userContext = useContext(UserContext)
+
+  const loginFirst = () => {
+    toast.error("Hãy đăng nhập để xem giỏ hàng", {
+      position: "bottom-right",
+      autoClose: 2500,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: 0,
+      theme: "light",
+    });
+  }
 
   return (
     <nav className="header">
@@ -22,15 +36,17 @@ const Header = () => {
 
       <SearchBar />
       
-      <div className="item cart" onClick={() => navigate("/cart/")}>
-      <Badge color="secondary" badgeContent={cartContext.cart.length}
+      <div className="item cart" onClick={() => checkLogged() ? navigate("/cart/") : loginFirst()}>
+      <Badge color="secondary" badgeContent={cartContext.cart.quantity_in_cart}
         max={99} anchorOrigin={{vertical: 'top', horizontal: 'right',}}>
         <ShoppingCartIcon />
       </Badge>
        
+      <ToastContainer newestOnTop={true}/>
+
       </div>
 
-      <div className="item user" onClick={() => userContext.logged ? navigate("/profile/") : navigate("/login/")}>
+      <div className="item user" onClick={() => checkLogged() ? navigate("/profile/") : navigate("/login/")}>
         <PersonIcon sx={{ fontSize: 26 }}/>
       </div>
     </nav>

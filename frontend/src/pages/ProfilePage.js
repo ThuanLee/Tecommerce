@@ -7,11 +7,13 @@ import jwt_decode from "jwt-decode"
 import '../styles/ProfilePage.css'
 import { ToastContainer, toast, Flip } from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
+import { CartContext } from '../contexts/cartContext'
 
 const ProfilePage = () => {
 
   const navigate = useNavigate()
-  const context = useContext(UserContext)
+  const userContext = useContext(UserContext)
+  const cartContext = useContext(CartContext)
   
   const [profile, setProfile] = useState([])
 
@@ -45,12 +47,11 @@ const ProfilePage = () => {
         const data = await getProfile(userId)
         setProfile(data)
       } catch (error) {
-        context.setLogged(false)
-        navigate('/login/')
+        logout()
       }
     }
     callAPI()
-  }, [context, navigate])
+  }, [])
 
   const handle = (e) => {
     e.preventDefault()
@@ -99,8 +100,7 @@ const ProfilePage = () => {
       }
       
     } catch (error) {
-      context.setLogged(false)
-      navigate('/login/')
+      logout()
     }
 
     isEdit = false
@@ -113,7 +113,8 @@ const ProfilePage = () => {
 
   const logout = () => {
     localStorage.removeItem('token')
-    context.setLogged(false)
+    userContext.setLogged(false)
+    cartContext.setCart([])
     navigate('/login/')
   }
 

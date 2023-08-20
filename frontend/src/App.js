@@ -10,6 +10,7 @@ import SignupPage from './pages/SignupPage';
 import LoginPage from './pages/LoginPage';
 import ScrollToTop from './utils/scrollToTop';
 import ProfilePage from './pages/ProfilePage';
+import { ToastContainer } from 'react-toastify';
 
 function App() {
   return (
@@ -27,6 +28,10 @@ function App() {
           <Route path='/profile/' element={<ProfilePage />} />
         </Routes>
         <Footer />
+        <ToastContainer
+          position="bottom-right" autoClose={2500} hideProgressBar={true} newestOnTop
+          closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover theme="colored"
+        />
       </BrowserRouter>
     </div>
   );

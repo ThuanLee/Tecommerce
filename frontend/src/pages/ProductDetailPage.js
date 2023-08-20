@@ -3,43 +3,15 @@ import { useParams } from 'react-router-dom'
 import { getProduct } from '../services/productService'
 import '../styles/ProductDetailPage.css'
 import { CartContext } from '../contexts/cartContext'
-import { ToastContainer, toast, Flip } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { addCartItem } from '../services/cartSevice'
 import jwt_decode from 'jwt-decode'
+import { addCartItemToast, loginFirstToast } from '../utils/toast'
 
 
 const ProductDetailPage = () => {
   // Get id from URL
   let params = useParams()
   let productId = params.id
-
-  // Toast message
-  const successToast= (message) => {
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      theme: "light",
-    });
-  }
-
-  const loginFirst = () => {
-    toast.error("Hãy đăng nhập trước", {
-      position: "bottom-right",
-      autoClose: 2500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      theme: "light",
-    });
-  }
 
   // Use to sync data with header
   const cartContext = useContext(CartContext)
@@ -63,11 +35,11 @@ const ProductDetailPage = () => {
 
       let response = await addCartItem(userId, productId, quantity)
       cartContext.setCart(response)
-      successToast('🦄 Thêm "' + product.name + '" vào giỏ hàng!!')
+      addCartItemToast(product.name)
 
     } catch (error) {
       cartContext.setCart([])
-      loginFirst()
+      loginFirstToast()
     }
   }
 
@@ -84,7 +56,6 @@ const ProductDetailPage = () => {
         <input id='buy-quantity' type='number' defaultValue={1}></input>
         <i className="fa-solid fa-2x fa-plus" onClick={addToCart}></i>
       </div>
-      <ToastContainer newestOnTop={true}/>
     </div>
   )
 }

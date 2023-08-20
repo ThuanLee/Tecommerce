@@ -3,11 +3,10 @@ import LogoutIcon from '@mui/icons-material/Logout'
 import { UserContext } from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
 import { getProfile, updateProfile } from '../services/userService'
-import jwt_decode from "jwt-decode"
 import '../styles/ProfilePage.css'
-import { ToastContainer, toast, Flip } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { CartContext } from '../contexts/cartContext'
+import { getUserId } from '../utils/userAuth'
+import { errorToast } from '../utils/toast'
 
 const ProfilePage = () => {
 
@@ -24,27 +23,10 @@ const ProfilePage = () => {
   const phoneNumberInput = document.getElementById("phone-number")
   const addressInput = document.getElementById("address")
 
-  // Toast message
-  const warningToast= (message) => {
-    toast.warn(message, {
-      position: "bottom-right",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      transition: Flip,
-      theme: "light",
-    });
-  }
-
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem('token'))
-        const userId = jwt_decode(token.access).user_id
-        const data = await getProfile(userId)
+        const data = await getProfile(getUserId())
         setProfile(data)
       } catch (error) {
         logout()
@@ -53,7 +35,7 @@ const ProfilePage = () => {
     callAPI()
   }, [])
 
-  const handle = (e) => {
+  const profileHandle = (e) => {
     e.preventDefault()
     if (isEdit) {
       saveProfile()
@@ -86,13 +68,10 @@ const ProfilePage = () => {
                         || profile.address !== data.address 
 
       if (isChanged) {
-        const token = JSON.parse(localStorage.getItem('token'))
-        const userId = jwt_decode(token.access).user_id
-        
-        const response = await updateProfile(userId, data)
+        const response = await updateProfile(getUserId(), data)
 
         if (response === "email exists") {
-          warningToast('Email đã được sử dụng bởi một tài khoản khác');
+          errorToast('Email đã được sử dụng bởi một tài khoản khác');
           return
         } else {
           setProfile(response)
@@ -120,7 +99,6 @@ const ProfilePage = () => {
 
   return (
     <div className="profile-page container">
-      <ToastContainer newestOnTop={true}/>
       <div className="main-body">
 
         <div className="row gutters-sm">
@@ -134,7 +112,7 @@ const ProfilePage = () => {
             </div>
           </div>
 
-          <form className="col-md-8" onSubmit={handle} autoComplete="off" spellCheck={false}>
+          <form className="col-md-8" onSubmit={profileHandle} autoComplete="off" spellCheck={false}>
             <div className="card mb-3">
               <div className="card-body">
 

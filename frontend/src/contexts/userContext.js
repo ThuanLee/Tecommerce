@@ -1,5 +1,5 @@
 import React, { createContext, useState } from 'react'
-import { checkLogged } from '../utils/checkLogged';
+import { checkLogged } from '../utils/userAuth';
 
 // Initiate Context
 const UserContext = createContext();

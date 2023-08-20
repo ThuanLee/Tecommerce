@@ -7,6 +7,7 @@ from .serializer import *
 from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+from uuid import uuid4
 
 @api_view(['GET'])
 def getProductList(request):
@@ -75,9 +76,10 @@ def login(request):
 
 
 @permission_classes([IsAuthenticated])
-class ProfileDetail(APIView):
+class ProfileView(APIView):
     
-    def get(self, request, userId):
+    def get(self, request):
+        userId = request.user.id
         user = User.objects.get(pk=userId)
         userProfile = UserProfile.objects.get(pk=userId)
         serializer = UserProfileSerializer(userProfile, many=False)
@@ -88,7 +90,8 @@ class ProfileDetail(APIView):
 
         return Response(data)
 
-    def put(self, request, userId):
+    def put(self, request):
+        userId = request.user.id
         newFullname = request.data.get("fullname")
         newEmail = request.data.get("email")
         newPhoneNumber = request.data.get("phone_number")
@@ -120,22 +123,25 @@ class ProfileDetail(APIView):
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
-def getCart(request, userId):
+def getCart(request):
+    userId = request.user.id
     cart = Cart.objects.get(pk=userId)
     serializer = CartSerializer(cart, many=False)
     return Response(serializer.data)
 
 
 @permission_classes([IsAuthenticated])
-class CartItems(APIView):
+class CartItemView(APIView):
     
-    def get(self, request, userId):
+    def get(self, request):
+        userId = request.user.id
         cart = Cart.objects.get(pk=userId)
         cartItems = cart.items.all()
         serializer = CartItemSerializer(cartItems, many=True)
         return Response(serializer.data)
 
-    def post(self, request, userId):
+    def post(self, request):
+        userId = request.user.id
         productId = request.data.get("productId")
         quantity = request.data.get("quantity")
         
@@ -168,5 +174,51 @@ def deleteCartItem(request, cartItemId):
     return Response(data)
         
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getOrderList(request):
+        userId = request.user.id
+        orders = Order.objects.filter(user=userId)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(serializer.data)
 
+
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getOrderDetail(request, orderId):
+    order = Order.objects.get(pk=orderId)
+    serializer = OrderSerializer(order, many=False)
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def createOrder(request):
+    userId = request.user.id
+    order_id = str(uuid4())
+    shipping_fee = request.data.get('shipping_fee')
+    phone_number = request.data.get('phone_number')
+    address = request.data.get('address')
+
+    cart = Cart.objects.get(pk=userId)
+
+    payment = cart.grand_total() + int(shipping_fee)
+
+    order = Order.objects.create(order_id=order_id,
+                                user_id=userId,
+                                shipping_fee=shipping_fee,
+                                payment=payment,
+                                phone_number=phone_number,
+                                address=address)
+
+    for cartItem in cart.items.all():
+        OrderItem.objects.create(order=order,
+                                product=cartItem.product,
+                                quantity=cartItem.quantity,
+                                total=cartItem.total())
     
+    cart.items.all().delete()
+
+    serializer = OrderSerializer(order, many=False)
+
+    return Response(serializer.data)

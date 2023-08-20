@@ -13,3 +13,10 @@ export const checkLogged = () => {
   }
   return false
 }
+
+// Get user id from access token
+export const getUserId = () => {
+  const token = JSON.parse(localStorage.getItem('token'))
+  const userId = jwt_decode(token.access).user_id
+  return userId
+}

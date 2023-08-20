@@ -6,7 +6,7 @@ urlpatterns = [
     # User
     path('signup/', views.signup, name='signup'),
     path('login/', views.login, name='login'),
-    path('profile/<int:userId>/', views.ProfileDetail.as_view(), name='ProfileDetail'),
+    path('profile/', views.ProfileView.as_view(), name='ProfileView'),
     path('token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
 
     # Product
@@ -17,7 +17,12 @@ urlpatterns = [
     path('search/', views.searchProduct, name='search'),
     
     # Cart
-    path('cart/<int:userId>/', views.getCart, name='getCart'),
-    path('cart/items/<int:userId>/', views.CartItems.as_view(), name='CartItems'),
-    path('cart/items/delete/<int:cartItemId>/', views.deleteCartItem, name='deleteCartItem')
+    path('cart/', views.getCart, name='getCart'),
+    path('cart/items/', views.CartItemView.as_view(), name='CartItemView'),
+    path('cart/items/delete/<int:cartItemId>/', views.deleteCartItem, name='deleteCartItem'),
+
+    # Order
+    path('order/all/', views.getOrderList, name='getOrderList'),
+    path('order/create/', views.createOrder, name='createOrder'),
+    path('order/<int:orderId>/', views.getOrderDetail, name='getOrderDetail')
 ]

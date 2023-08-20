@@ -1,6 +1,16 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+ORDER_STATUS = (
+    ("HANDLING", "Đang xử lý"),
+    ("PACKING", "Đang đóng gói"),
+    ("SHIPPING", "Đang gửi"),
+    ("COMPLETED", "Đã nhận hàng"),
+    ("CANCELLED", "Đã hủy"),
+)
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
 
@@ -26,7 +36,7 @@ class UserProfile(models.Model):
     id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     fullname = models.CharField(max_length=50, null=True, blank=True)
     phone_number = models.CharField(max_length=20, null=True, blank=True)
-    address = models.CharField(max_length=150, null=True, blank=True)
+    address = models.TextField(null=True, blank=True)
 
 
 class Cart(models.Model):
@@ -58,3 +68,30 @@ class CartItem(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class Order(models.Model):
+    order_id = models.CharField(max_length=100)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    shipping_fee = models.IntegerField()
+    payment = models.IntegerField()
+    phone_number = models.CharField(max_length=20)
+    address = models.TextField()
+    order_date = models.DateTimeField(auto_now=True)
+    status = models.CharField(max_length=20, choices=ORDER_STATUS, default="HANDLING")
+
+    def __str__(self):
+        return str(self.user)
+
+    class Meta:
+        ordering = ['-order_date']
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    total = models.IntegerField()
+
+    def __str__(self):
+        return str(self.order)

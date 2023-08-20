@@ -3,7 +3,6 @@ import CartItems from '../components/CartItems'
 import { useContext } from 'react'
 import { CartContext } from '../contexts/cartContext'
 import '../styles/CartPage.css'
-import { ToastContainer } from 'react-toastify'
 
 const CartPage = () => {
   const context = useContext(CartContext)
@@ -14,7 +13,6 @@ const CartPage = () => {
       {
         context.cart.quantity_in_cart === 0 ? <p>Bạn chưa chọn sản phẩm nào</p> : <CartItems />
       }   
-      <ToastContainer newestOnTop={true}/>
     </div>
   )
 }

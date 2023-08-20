@@ -1,38 +1,21 @@
 import React, { useEffect, useState, useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
-import { toast } from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 import { deleteCartItem, getCartItems } from '../services/cartSevice'
-import jwt_decode from 'jwt-decode'
+import { removeCartItemToast } from '../utils/toast'
+import { getUserId } from '../utils/userAuth'
 
 const CartItems = () => {
 
   const cartContext = useContext(CartContext)
   const navigate = useNavigate()
 
-  const successToast= (productName) => {
-    let message = '🦄 Xóa "' + productName + '" khỏi giỏ hàng!!'
-    toast(message, {
-      position: "bottom-right",
-      autoClose: 1500,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      theme: "light",
-    });
-  }
-
   const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const token = JSON.parse(localStorage.getItem('token'))
-        const userId = jwt_decode(token.access).user_id
-        const data = await getCartItems(userId)
+        const data = await getCartItems(getUserId())
         setCartItems(data)
       } catch (error) {
         cartContext.setCart([])
@@ -40,7 +23,7 @@ const CartItems = () => {
       }
     }
     callAPI()
-  }, [])
+  }, [cartContext, navigate])
 
   const moneyFormat = (money) => {
     money = Math.round(money)
@@ -66,7 +49,7 @@ const CartItems = () => {
       const response = await deleteCartItem(cartItem.id)
       cartContext.setCart(response.cart)
       setCartItems(response.cartItems)
-      successToast(cartItem.product.name)
+      removeCartItemToast(cartItem.product.name)
     } catch (error) {
       cartContext.setCart([])
       navigate('/')

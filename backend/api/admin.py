@@ -30,3 +30,11 @@ class CartItemAdmin(admin.ModelAdmin):
 
     def get_total(self, obj):
         return obj.total()
+
+@admin.register(Order)
+class OrderAdmin(admin.ModelAdmin):
+    list_display = ['order_id', 'user', 'payment', 'phone_number', 'address', 'order_date', 'status']
+
+@admin.register(OrderItem)
+class OrderItemAdmin(admin.ModelAdmin):
+    list_display = ['id', 'order', 'product', 'quantity', 'total']

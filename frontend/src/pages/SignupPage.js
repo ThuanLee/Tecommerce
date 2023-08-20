@@ -2,41 +2,11 @@ import React from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/SignupPage.css'
 import { signup } from '../services/userService'
-import { ToastContainer } from 'react-toastify'
-import { toast } from 'react-toastify'
-import { Flip } from 'react-toastify'
+import { errorToast, signupSuccessToast } from '../utils/toast'
 
 const SignupPage = () => {
 
   const navigate = useNavigate()
-
-  const errorSignupToast = (message) => {
-    toast.error(message, {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      transition: Flip,
-      theme: "light",
-    });
-  }
-
-  const successSignupToast = (message) => {
-    toast.success(message, {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      transition: Flip,
-      theme: "light",
-    });
-  }
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -46,29 +16,28 @@ const SignupPage = () => {
     const repassword = e.target.repassword.value
 
     if (username.length < 8) {
-      errorSignupToast("Tên đăng nhập phải có ít nhất 8 ký tự")
+      errorToast("Tên đăng nhập phải có ít nhất 8 ký tự")
       return
     }
 
     if (password !== repassword) {
-      errorSignupToast('Mật khẩu nhập lại không trùng khớp')
+      errorToast('Mật khẩu nhập lại không trùng khớp')
       return
     }
 
     const response = await signup(username, email, password)
     if (response === "username exists") {
-      errorSignupToast('Tên đăng nhập đã được sử dụng')
+      errorToast('Tên đăng nhập đã được sử dụng')
     } else if (response === "email exists") {
-      errorSignupToast('Email này đã được đăng ký bởi một tài khoản khác')
+      errorToast('Email này đã được đăng ký bởi một tài khoản khác')
     } else if (response === "signup success") {
       setTimeout(() => navigate('/login/'), 3000)
-      successSignupToast('Đăng ký thành công')
+      signupSuccessToast()
     }
   }
 
   return (
     <div class="signup-page">
-      <ToastContainer newestOnTop={true}/>
       <h2>Đăng ký</h2>
       <form onSubmit={handleSubmit} autoComplete="off" spellCheck={false}>
         <div class="input-box">

@@ -1,7 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { getCart } from '../services/cartSevice';
-import { checkLogged } from '../utils/checkLogged'
-import jwt_decode from 'jwt-decode';
+import { checkLogged, getUserId } from '../utils/userAuth'
 
 // Initiate Context
 const CartContext = createContext();
@@ -14,9 +13,7 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     const callAPI = async () => {
       if (checkLogged()) {
-        const token = JSON.parse(localStorage.getItem('token'))
-        const userId = jwt_decode(token.access).user_id
-        setCart(await getCart(userId))
+        setCart(await getCart(getUserId()))
       }
     }
     callAPI()

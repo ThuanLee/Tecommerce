@@ -1,35 +1,18 @@
 import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/LoginPage.css'
-import { ToastContainer } from 'react-toastify'
-import { toast } from 'react-toastify'
-import { Flip } from 'react-toastify'
 import { login } from '../services/userService'
 import { UserContext } from '../contexts/userContext'
 import { CartContext } from '../contexts/cartContext'
 import { getCart } from '../services/cartSevice';
-import jwt_decode from 'jwt-decode';
-
+import { errorToast } from '../utils/toast'
+import { checkLogged, getUserId } from '../utils/userAuth'
 
 const LoginPage = () => {
 
   const navigate = useNavigate()
   const userContext = useContext(UserContext)
   const cartContext = useContext(CartContext)
-
-  const loginToast = (message) => {
-      toast.error(message, {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: 0,
-      transition: Flip,
-      theme: "light",
-    });
-  }
 
   const handleSubmit = async(e) => {
     e.preventDefault()
@@ -39,21 +22,19 @@ const LoginPage = () => {
     const response = await login(username, password)
 
     if (response === "username not match") {
-      loginToast("Tên đăng nhập không đúng")
+      errorToast("Tên đăng nhập không đúng")
     } else if (response === "password not match") {
-      loginToast("Mật khẩu không đúng")
+      errorToast("Mật khẩu không đúng")
     } else {
       localStorage.setItem('token', JSON.stringify(response))
-      const userId = jwt_decode(response.access).user_id
-      userContext.setLogged(userId)
-      cartContext.setCart(await getCart(userId))
+      userContext.setLogged(checkLogged())
+      cartContext.setCart(await getCart(getUserId()))
       navigate('/profile/')
     }
   }
 
   return (
     <div class="login-page">
-      <ToastContainer newestOnTop={true}/>
       <h2>Đăng nhập</h2>
       <form onSubmit={handleSubmit} autoComplete="off" spellCheck={false}>
         <div class="input-box">

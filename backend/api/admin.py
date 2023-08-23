@@ -33,7 +33,7 @@ class CartItemAdmin(admin.ModelAdmin):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['order_id', 'user', 'payment', 'phone_number', 'address', 'order_date', 'status']
+    list_display = ['order_code', 'receiver_name', 'grand_total', 'shipping_fee', 'phone_number', 'address', 'note', 'payment_method', 'order_date', 'status']
 
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):

@@ -5,8 +5,8 @@ import { useNavigate } from 'react-router-dom'
 import { getProfile, updateProfile } from '../services/userService'
 import '../styles/ProfilePage.css'
 import { CartContext } from '../contexts/cartContext'
-import { getUserId } from '../utils/userAuth'
 import { errorToast } from '../utils/toast'
+import OrderList from '../components/OrderList'
 
 const ProfilePage = () => {
 
@@ -26,7 +26,7 @@ const ProfilePage = () => {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const data = await getProfile(getUserId())
+        const data = await getProfile()
         setProfile(data)
       } catch (error) {
         logout()
@@ -68,7 +68,7 @@ const ProfilePage = () => {
                         || profile.address !== data.address 
 
       if (isChanged) {
-        const response = await updateProfile(getUserId(), data)
+        const response = await updateProfile(data)
 
         if (response === "email exists") {
           errorToast('Email đã được sử dụng bởi một tài khoản khác');
@@ -136,7 +136,7 @@ const ProfilePage = () => {
                   <div className="col-sm-3">
                     <h6 className="mb-0">Số điện thoại</h6>
                   </div>
-                  <input disabled type='number' id="phone-number" className="col-sm-9" defaultValue={profile.phone_number} />
+                  <input disabled type='tel' id="phone-number" className="col-sm-9" defaultValue={profile.phone_number} />
                 </div>
                 <hr />
                
@@ -162,6 +162,9 @@ const ProfilePage = () => {
 
         </div>
       </div>
+
+      <OrderList />
+      
     </div>
   )
 }

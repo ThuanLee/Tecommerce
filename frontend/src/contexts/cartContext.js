@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react'
 import { getCart } from '../services/cartSevice';
-import { checkLogged, getUserId } from '../utils/userAuth'
+import { checkLogged } from '../utils/userAuth'
 
 // Initiate Context
 const CartContext = createContext();
@@ -13,7 +13,7 @@ const CartProvider = ({ children }) => {
   useEffect(() => {
     const callAPI = async () => {
       if (checkLogged()) {
-        setCart(await getCart(getUserId()))
+        setCart(await getCart())
       }
     }
     callAPI()

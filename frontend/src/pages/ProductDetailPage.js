@@ -30,13 +30,9 @@ const ProductDetailPage = () => {
   const addToCart = async () => {
     try {
       let quantity = parseInt(document.getElementById('buy-quantity').value)
-      const token = JSON.parse(localStorage.getItem('token'))
-      const userId = jwt_decode(token.access).user_id
-
-      let response = await addCartItem(userId, productId, quantity)
+      let response = await addCartItem(productId, quantity)
       cartContext.setCart(response)
       addCartItemToast(product.name)
-
     } catch (error) {
       cartContext.setCart([])
       loginFirstToast()

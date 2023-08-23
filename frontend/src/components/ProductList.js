@@ -6,7 +6,7 @@ const ProductList = ({productList}) => {
   return (
     <div className="product-list container">
       <div className='row'>
-        {productList.map((product, index) => (
+        {productList.map((product) => (
           <Link to={`/product/${product.id}/`} className="col-lg-3">
             <div className="product-card">
                 <div className="imgBox">

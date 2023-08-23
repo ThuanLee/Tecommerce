@@ -1,16 +1,16 @@
 import axios from '../utils/axious'
 
-const getCart = async (userId) => {
-    return await axios.get(`api/cart/${userId}/`)
+const getCart = async () => {
+    return await axios.get(`api/cart/`)
 }
 
-const getCartItems = async (userId) => {
-    return await axios.get(`api/cart/items/${userId}/`)
+const getCartItems = async () => {
+    return await axios.get(`api/cart/items/`)
 }
 
-const addCartItem = async (userId, productId, quantity) => {
+const addCartItem = async (productId, quantity) => {
     const data = {"productId": productId, "quantity": quantity}
-    return await axios.post(`api/cart/items/${userId}/`, data)
+    return await axios.post(`api/cart/items/`, data)
 }
 
 const deleteCartItem = async (cartItemId) => {

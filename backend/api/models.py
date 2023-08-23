@@ -10,6 +10,10 @@ ORDER_STATUS = (
     ("CANCELLED", "Đã hủy"),
 )
 
+PAYMENT_METHOD = (
+    ("BANKING", "Thanh toán bằng tài khoản ngân hàng"),
+    ("COD", "Thanh toán khi nhận hàng"),
+)
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
@@ -71,12 +75,15 @@ class CartItem(models.Model):
 
 
 class Order(models.Model):
-    order_id = models.CharField(max_length=100)
+    order_code = models.CharField(max_length=100)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     shipping_fee = models.IntegerField()
-    payment = models.IntegerField()
+    grand_total = models.IntegerField()
+    receiver_name = models.CharField(max_length=50)
     phone_number = models.CharField(max_length=20)
     address = models.TextField()
+    note = models.TextField(null=True, blank=True)
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD, default="COD")
     order_date = models.DateTimeField(auto_now=True)
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default="HANDLING")
 
@@ -95,3 +102,6 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return str(self.order)
+
+    class Meta:
+        ordering = ['-id']

@@ -11,6 +11,8 @@ import LoginPage from './pages/LoginPage';
 import ScrollToTop from './utils/scrollToTop';
 import ProfilePage from './pages/ProfilePage';
 import { ToastContainer } from 'react-toastify';
+import OrderPage from './pages/OrderPage';
+import OrderDetailPage from './pages/OrderDetailPage';
 
 function App() {
   return (
@@ -26,6 +28,8 @@ function App() {
           <Route path='/signup/' element={<SignupPage />} />
           <Route path='/login/' element={<LoginPage />} />
           <Route path='/profile/' element={<ProfilePage />} />
+          <Route path='/order/' element={<OrderPage />} />
+          <Route path='/order/:id/' element={<OrderDetailPage />} />
         </Routes>
         <Footer />
         <ToastContainer

@@ -191,25 +191,39 @@ def getOrderDetail(request, orderId):
     return Response(serializer.data)
 
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def getOrderItems(request, orderId):
+    orderItems = OrderItem.objects.filter(order=orderId)
+    serializer = OrderItemSerializer(orderItems, many=True)
+    return Response(serializer.data)
+
+
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def createOrder(request):
     userId = request.user.id
-    order_id = str(uuid4())
-    shipping_fee = request.data.get('shipping_fee')
-    phone_number = request.data.get('phone_number')
-    address = request.data.get('address')
-
     cart = Cart.objects.get(pk=userId)
 
-    payment = cart.grand_total() + int(shipping_fee)
+    order_code = str(uuid4())
+    grand_total = cart.grand_total()
+    shipping_fee = request.data.get('shipping_fee')
+    receiver_name = request.data.get('receiver_name')
+    phone_number = request.data.get('phone_number')
+    address = request.data.get('address')
+    note = request.data.get('note')
+    payment_method = request.data.get('payment_method')
 
-    order = Order.objects.create(order_id=order_id,
+
+    order = Order.objects.create(order_code=order_code,
                                 user_id=userId,
+                                grand_total=grand_total,
                                 shipping_fee=shipping_fee,
-                                payment=payment,
+                                receiver_name=receiver_name,
                                 phone_number=phone_number,
-                                address=address)
+                                payment_method=payment_method,
+                                address=address,
+                                note=note)
 
     for cartItem in cart.items.all():
         OrderItem.objects.create(order=order,

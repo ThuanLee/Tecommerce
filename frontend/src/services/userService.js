@@ -10,12 +10,12 @@ const login = async(username, password) => {
     return await axios.post('/api/login/', data)
 }
 
-const getProfile = async(userId) => {
-    return await axios.get(`/api/profile/${userId}/`)
+const getProfile = async() => {
+    return await axios.get(`/api/profile/`)
 }
 
-const updateProfile = async(userId, data) => {
-    return await axios.put(`/api/profile/${userId}/`, data)
+const updateProfile = async(data) => {
+    return await axios.put(`/api/profile/`, data)
 }
 
 export {signup, login, getProfile, updateProfile}

@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { deleteCartItem, getCartItems } from '../services/cartSevice'
 import { removeCartItemToast } from '../utils/toast'
-import { getUserId } from '../utils/userAuth'
 
 const CartItems = () => {
 
@@ -15,7 +14,7 @@ const CartItems = () => {
   useEffect(() => {
     const callAPI = async () => {
       try {
-        const data = await getCartItems(getUserId())
+        const data = await getCartItems()
         setCartItems(data)
       } catch (error) {
         cartContext.setCart([])
@@ -92,21 +91,13 @@ const CartItems = () => {
       ))}
 
       <div className="totals">
-        <div className="totals-item">
-          <label>Tạm tính</label>
-          <div className="totals-value" id="cart-subtotal">{moneyFormat(cartContext.cart.grand_total)}</div>
-        </div>
-        <div className="totals-item">
-          <label>Phí vận chuyển</label>
-          <div className="totals-value" id="cart-shipping">{moneyFormat(cartContext.cart.grand_total * 0.1)}</div>
-        </div>
         <div className="totals-item totals-item-total">
           <label>Tổng cộng</label>
           <div className="totals-value" id="cart-total">{moneyFormat(cartContext.cart.grand_total * 1.1)}</div>
         </div>
       </div>
 
-      <button className="checkout">Đặt hàng</button>
+      <button className="checkout"><Link to="/order/">Đặt hàng</Link></button>
 
     </div>
   )

@@ -1,0 +1,86 @@
+.order-detail {
+  background-size: cover;
+  font-family: 'Lato', sans-serif;
+  color: rgba(116, 116, 116, 0.667);
+}
+
+.order-detail a {
+  text-decoration: none;
+}
+
+.container-fluid {
+  margin-top: 200px ;
+}
+
+.order-detail p {
+  font-size: 14px;
+  margin-bottom: 7px;
+}
+
+.small {
+  letter-spacing: 0.5px !important;
+}
+
+.card-1 {
+  box-shadow: 2px 2px 5px 0px #3761af;
+}
+
+.card-2 {
+  margin-bottom: 10px;
+}
+
+.bold {
+  font-weight: 500;
+}
+
+.change-color {
+  color: #3761af !important;
+}
+
+.fa-circle.active {
+  font-size: 8px;
+  color: #AB47BC;
+}
+
+.fa-circle {
+  font-size: 8px;
+  color: #aaa;
+}
+
+.invoice {
+  position: relative;
+  top: -70px;
+}
+
+.display-3 {
+  font-weight: 500 !important;
+}
+
+@media (max-width: 479px) {
+  .invoice {
+      position: relative;
+      top: 7px;
+  }
+
+  .border-line {
+      border-right: 0px solid rgb(226, 206, 226) !important;
+  }
+
+}
+
+@media (max-width: 700px) {
+
+  h2 {
+      color: rgb(78, 0, 92);
+      font-size: 17px;
+  }
+
+  .display-3 {
+      font-size: 28px;
+      font-weight: 500 !important;
+  }
+}
+
+.text-right {
+  text-align: right;
+}

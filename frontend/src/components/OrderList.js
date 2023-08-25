@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { getOrderList } from '../services/orderService'
+import { endSessionToast } from '../utils/toast'
 
 const OrderList = () => {
 
@@ -15,12 +16,13 @@ const OrderList = () => {
         setOrderList(data)
       } catch (error) {
         if (error.status === 401) {
+          endSessionToast()
           navigate('/login/')
         }
       }
     }
     callAPI()
-  }, [])
+  }, [navigate])
 
   return (
     <div>
@@ -29,7 +31,7 @@ const OrderList = () => {
         orderList.map((order) => (
           <div>
             <Link to={`/order/${order.id}/`}>
-              Order code: {order.order_code}
+              {order.order_code}
             </Link>
           </div>
         ))

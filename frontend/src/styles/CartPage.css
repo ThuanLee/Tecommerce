@@ -1,31 +1,38 @@
+.shopping-cart {
+  padding-top: 10px;
+}
+
 .product-image {
   float: left;
   width: 20%;
+  text-align: center;
 }
 
-.product-details {
+.product-title {
   float: left;
-  width: 37%;
+  width: 35%;
 }
 
 .product-price {
   float: left;
-  width: 12%;
+  width: 10%;
 }
 
 .product-quantity {
   float: left;
   width: 10%;
+  text-align: center;
 }
 
 .product-removal {
   float: left;
-  width: 9%;
+  width: 10%;
+  text-align: center;
 }
 
 .product-line-price {
   float: left;
-  width: 12%;
+  width: 15%;
   text-align: right;
 }
 
@@ -48,12 +55,6 @@
   zoom: 1;
 }
 
-/* Apply clearfix in a few places */
-/* Apply dollar signs */
-.product .product-price:after, .product .product-line-price:after, .totals-value:after {
-  content: " VND";
-}
-
 /* Body/Header stuff */
 .cart-page {
   padding: 20px 30px 30px 20px;
@@ -66,8 +67,9 @@
   padding-bottom: 15px;
   margin-bottom: 15px;
   border-bottom: 1px solid #eee;
+  font-weight: 600;
 }
-.column-labels .product-image, .column-labels .product-details, .column-labels .product-removal {
+.column-labels .product-title, .column-labels .product-removal {
   text-indent: -9999px;
 }
 

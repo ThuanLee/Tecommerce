@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import ProductList from '../components/ProductList'
-import { searchProduct } from '../services/productService'
+import { getCategoryList, searchProduct } from '../services/productService'
 import '../styles/SearchPage.css'
 
 export const SearchPage = () => {
@@ -8,16 +8,17 @@ export const SearchPage = () => {
   let params = new URLSearchParams(window.location.search)
   let query = params.get('query')
 
-  let categoryList = JSON.parse(localStorage.getItem('categories') || "[]")
-
   const [searchResult, setSearchResult] = useState([])
+  const [categoryList, setCategoryList] = useState([])
   const [productList, setProductList] = useState([])
 
   useEffect(() => {
     const callAPI = async () => {
-      let data = await searchProduct(query)
-      setSearchResult(data)
-      setProductList(data)
+      let searchData = await searchProduct(query)
+      let categoryData = await getCategoryList()
+      setSearchResult(searchData)
+      setProductList(searchData)
+      setCategoryList(categoryData)
     }
     callAPI()
   }, [query])
@@ -43,22 +44,22 @@ export const SearchPage = () => {
     <div className='search-page'>
 
       <div className='filter'>
-        <h2>Bộ lọc</h2>
+        <h5>Bộ lọc</h5>
         <div className='category-element'>
           <input type="radio" id="0" name="category_list" value="all" onChange={filter}/>
-          <label for="0"><h3>All</h3></label>
+          <label for="0"><p>All</p></label>
         </div>
-          {categoryList.map((category, index) => (
+          {categoryList.map((category) => (
             <div className='category-element'>
               <input type="radio" id={category.id} name="category_list" value={category.id} onChange={filter}/>
-              <label for={category.id}><h3>{category.name}</h3></label>
+              <label for={category.id}><p>{category.name}</p></label>
             </div>
           ))}
       </div>
 
-      <div>
+      <div className='search-result'>
         {query !== '' &&
-          <h3>Search term: <small>{query}</small></h3>
+          <p className='m-0'><b>Search term: </b><i>{query}</i></p>
         }
         <ProductList productList={productList} />
       </div>

@@ -119,6 +119,12 @@
   cursor: pointer;
   background: #428a7d;
 }
-.order-items{
+.order-page .shopping-cart{
   padding: 50px;
+}
+.order-page .product-removal{
+  text-indent: -9999px;
+}
+.order-page .product-line-price{
+  text-align: center;
 }

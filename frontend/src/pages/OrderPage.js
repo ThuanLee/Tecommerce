@@ -5,6 +5,8 @@ import '../styles/OrderPage.css'
 import { CartContext } from '../contexts/cartContext'
 import { useNavigate } from 'react-router-dom'
 import { createOrder } from '../services/orderService'
+import { endSessionToast } from '../utils/toast'
+import { moneyFormat } from '../utils/moneyFormat'
 
 const OrderPage = () => {
 
@@ -20,31 +22,13 @@ const OrderPage = () => {
         setCartItems(data)
       } catch (error) {
         if (error.status === 401) {
+          endSessionToast()
           navigate('/login/')
         }
       }
     }
     callAPI()
   }, [navigate])
-
-  const moneyFormat = (money) => {
-    money = Math.round(money)
-    if (money < 1000) return (<small>{money}</small>)
-    money = money.toString()
-    let formattedMoney = ""
-    for (let i = money.length - 1; i >= 0; i--) {
-      formattedMoney = money[i] + formattedMoney
-      if ((money.length - i) % 3 === 0 && (i !== 0)) {
-        formattedMoney = "." + formattedMoney
-      }
-    }
-    return (
-      <span>
-        {formattedMoney.slice(0, formattedMoney.length-3)}
-        <small>{formattedMoney.slice(formattedMoney.length-3, formattedMoney.length)}</small>
-      </span>
-    )
-  }
 
   const shippingFeeCaculate = () => {
     const shippingFee = cartContext.cart.grand_total * 0.05
@@ -78,6 +62,7 @@ const OrderPage = () => {
       navigate(`/order/${response.id}/`)
     } catch (error) {
       if (error.status === 401) {
+        endSessionToast()
         navigate('/login/')
       }
     }
@@ -163,27 +148,29 @@ const OrderPage = () => {
       </div>
 
 
-      <div className="order-items">
+      <div className="shopping-cart">
         <div className="column-labels">
-          <label className="product-image">Image</label>
-          <label className="product-details">Sản phẩm</label>
+          <label className="product-image">Sản phẩm</label>
+          <label className="product-title">Chi tiết</label>
           <label className="product-price">Đơn giá</label>
           <label className="product-quantity">Số lượng</label>
+          <label className="product-removal">Xóa</label>
           <label className="product-line-price">Tổng</label>
         </div>
 
         {cartItems.map((cartItem) => (
+
           <div className="product">
             <div className="product-image">
-              <img src="https://s.cdpn.io/3/dingo-dog-bones.jpg" alt='sample'/>
+              <img src={cartItem.product.image_url} alt='cart item img'/>
             </div>
-            <div className="product-details">
-              <div className="product-title"><h5>{cartItem.product.name}</h5></div>
-            </div>
+            <div className="product-title"><p>{cartItem.product.name}</p></div>
             <div className="product-price">{moneyFormat(cartItem.product.price)}</div>
             <div className="product-quantity">{cartItem.quantity}</div>
+            <div className='product-removal'>x</div>
             <div className="product-line-price">{moneyFormat(cartItem.total)}</div>
           </div>
+
         ))}
       </div>
 

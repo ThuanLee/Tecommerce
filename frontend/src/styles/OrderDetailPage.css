@@ -1,4 +1,5 @@
 .order-detail {
+  margin-top: 100px;
   background-size: cover;
   font-family: 'Lato', sans-serif;
   color: rgba(116, 116, 116, 0.667);
@@ -6,10 +7,6 @@
 
 .order-detail a {
   text-decoration: none;
-}
-
-.container-fluid {
-  margin-top: 200px ;
 }
 
 .order-detail p {
@@ -21,11 +18,12 @@
   letter-spacing: 0.5px !important;
 }
 
-.card-1 {
+.order-detail .card-1 {
+  width: 700px;
   box-shadow: 2px 2px 5px 0px #3761af;
 }
 
-.card-2 {
+.order-detail .card-2 {
   margin-bottom: 10px;
 }
 
@@ -37,48 +35,9 @@
   color: #3761af !important;
 }
 
-.fa-circle.active {
-  font-size: 8px;
-  color: #AB47BC;
-}
-
-.fa-circle {
-  font-size: 8px;
-  color: #aaa;
-}
-
 .invoice {
   position: relative;
-  top: -70px;
-}
-
-.display-3 {
-  font-weight: 500 !important;
-}
-
-@media (max-width: 479px) {
-  .invoice {
-      position: relative;
-      top: 7px;
-  }
-
-  .border-line {
-      border-right: 0px solid rgb(226, 206, 226) !important;
-  }
-
-}
-
-@media (max-width: 700px) {
-
-  h2 {
-      color: rgb(78, 0, 92);
-      font-size: 17px;
-  }
-
-  .display-3 {
-      font-size: 28px;
-      font-weight: 500 !important;
-  }
+  top: -75px;
 }
 
 .text-right {

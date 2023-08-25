@@ -85,7 +85,10 @@ class ProfileView(APIView):
         serializer = UserProfileSerializer(userProfile, many=False)
         
         # Add email field to return dict
-        data = {"email": user.email}
+        data = {
+            "email": user.email,
+            "username": user.username
+        }
         data.update(serializer.data)
 
         return Response(data)
@@ -115,7 +118,10 @@ class ProfileView(APIView):
         userProfile.save()
 
         serializer = UserProfileSerializer(userProfile, many=False)
-        data = {"email": user.email}
+        data = {
+            "email": user.email,
+            "username": user.username
+        }
         data.update(serializer.data)
 
         return Response(data)

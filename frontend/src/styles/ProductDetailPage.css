@@ -1,14 +1,8 @@
 .product-detail {
-    padding: 100px;
+    padding: 50px 100px 0 100px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-}
-
-.detail {
-    background-color: #9DB2BF;
-    padding: 50px;
-    margin-bottom: 50px;
 }
 
 .product-detail .add-btn {
@@ -16,7 +10,6 @@
     align-content: center;
     width: fit-content;
     flex-direction: row;
-    padding: 20px;
     align-items: center;
 }
 

@@ -3,7 +3,7 @@ import '../styles/SearchBar.css'
 
 const SearchBar = () => {
   return (
-    <form className="item search" action='/search/'>
+    <form className="item search" action='/search/' autoComplete='off' spellCheck={false}>
       <div className="search-group">
           <input type="search" placeholder='Search here...' name='query' />
           <button type='submit'>

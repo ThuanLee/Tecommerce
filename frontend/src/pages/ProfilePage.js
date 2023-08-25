@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { getProfile, updateProfile } from '../services/userService'
 import '../styles/ProfilePage.css'
 import { CartContext } from '../contexts/cartContext'
-import { errorToast } from '../utils/toast'
+import { endSessionToast, errorToast } from '../utils/toast'
 import OrderList from '../components/OrderList'
 
 const ProfilePage = () => {
@@ -29,7 +29,9 @@ const ProfilePage = () => {
         const data = await getProfile()
         setProfile(data)
       } catch (error) {
-        logout()
+        if (error.status === 401) {
+          logout()
+        }
       }
     }
     callAPI()
@@ -79,7 +81,9 @@ const ProfilePage = () => {
       }
       
     } catch (error) {
-      logout()
+      if (error.status === 401) {
+        logout()
+      }
     }
 
     isEdit = false
@@ -91,9 +95,8 @@ const ProfilePage = () => {
   }
 
   const logout = () => {
-    localStorage.removeItem('token')
-    userContext.setLogged(false)
     cartContext.setCart([])
+    endSessionToast()
     navigate('/login/')
   }
 
@@ -102,12 +105,12 @@ const ProfilePage = () => {
       <div className="main-body">
 
         <div className="row gutters-sm">
-          <div className="col-md-4 mb-3">
+          <div className="col-md-4 mb-3 pt-4">
             <div className="d-flex flex-column align-items-center text-center">
               <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
               <div className="mt-3">
-                <h4>John Doe</h4>
-                <p className="text-muted font-size-sm">Bay Area, San Francisco, CA</p>
+                <h4>{profile.username}</h4>
+                <p className="text-muted font-size-sm">Thành viên bạc</p>
               </div>
             </div>
           </div>

@@ -4,7 +4,7 @@ import { getProduct } from '../services/productService'
 import '../styles/ProductDetailPage.css'
 import { CartContext } from '../contexts/cartContext'
 import { addCartItem } from '../services/cartSevice'
-import jwt_decode from 'jwt-decode'
+import { moneyFormat } from '../utils/moneyFormat'
 import { addCartItemToast, loginFirstToast } from '../utils/toast'
 
 
@@ -40,17 +40,23 @@ const ProductDetailPage = () => {
   }
 
   return (
-    <div className="product-detail">
-      <div className="detail">
-        <p>Tên sản phẩm: {product.name}</p>
-        <p>Mô tả: {product.description}</p>
-        <p>Giá: {product.price}</p>
-        <p>Tồn kho: {product.quantity_in_stock}</p>
-      </div>
-      <div className="add-btn">
-        <h4>Thêm vào giỏ hàng</h4>
-        <input id='buy-quantity' type='number' defaultValue={1}></input>
-        <i className="fa-solid fa-2x fa-plus" onClick={addToCart}></i>
+    <div className="product-detail container">
+      <div className="detail row">
+        <div className='col'>
+          <img src={product.image_url} alt="product" width="600px" />
+        </div>
+          
+        <div className="col">
+          <h4>{product.name}</h4>
+          <p>{product.description}</p>
+          <h5>{moneyFormat(product.price)}</h5>
+          <p><i>Kho: {product.quantity_in_stock}</i></p>
+          <div className='add-btn'>
+            <h4>Thêm vào giỏ hàng</h4>
+            <input id='buy-quantity' type='number' defaultValue={1}></input>
+            <i className="fa-solid fa-2x fa-plus" onClick={addToCart}></i>
+          </div>
+        </div>
       </div>
     </div>
   )

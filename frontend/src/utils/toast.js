@@ -15,6 +15,10 @@ export const loginFirstToast = () => {
   toast.info("Hãy đăng nhập trước");
 }
 
+export const endSessionToast = () => {
+  toast.warn("Phiên đăng nhập đã hết hạn");
+}
+
 export const signupSuccessToast = () => {
   toast.success('Đăng ký thành công');
 }

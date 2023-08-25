@@ -42,6 +42,19 @@ class CartItemSerializer(ModelSerializer):
         fields = '__all__'
 
 class OrderSerializer(ModelSerializer):
+    order_date = SerializerMethodField()
+    payment_method = SerializerMethodField()
+    status = SerializerMethodField()
+    
+    def get_order_date(self, obj):
+        return obj.order_date.strftime("%H:%M %d/%m/%Y")
+
+    def get_payment_method(self, obj):
+        return obj.get_payment_method_display()
+
+    def get_status(self, obj):
+            return obj.get_status_display()
+
     class Meta:
         model = Order
         fields = '__all__'

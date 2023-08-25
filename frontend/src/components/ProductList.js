@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import '../styles/ProductList.css'
+import { moneyFormat } from '../utils/moneyFormat'
 
 const ProductList = ({productList}) => {
 
@@ -7,16 +8,16 @@ const ProductList = ({productList}) => {
     <div className="product-list container">
       <div className='row'>
         {productList.map((product) => (
-          <Link to={`/product/${product.id}/`} className="col-lg-3">
+          <Link to={`/product/${product.id}/`} className="col-md-6 col-lg-4 col-xl-3">
             <div className="product-card">
-                <div className="imgBox">
+                <div className="image-box">
+                  <img src={product.image_url} alt="product" />
                 </div>
 
                 <div className="contentBox">
-                  <h3>{product.name}</h3>
-                  <h2 className="price">{product.price / 1000}<small>.000</small> VND</h2>
+                  <p className='product-name'>{product.name}</p>
+                  <span>{moneyFormat(product.price)}</span>
                 </div>
-                <p className="buy">Buy Now</p>
             </div>
           </Link>
         ))}

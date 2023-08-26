@@ -77,7 +77,7 @@ class CartItem(models.Model):
 
 class Order(models.Model):
     order_code = models.CharField(max_length=100)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='orders', on_delete=models.CASCADE)
     shipping_fee = models.IntegerField()
     grand_total = models.IntegerField()
     receiver_name = models.CharField(max_length=50)
@@ -89,7 +89,7 @@ class Order(models.Model):
     status = models.CharField(max_length=20, choices=ORDER_STATUS, default="HANDLING")
 
     def __str__(self):
-        return str(self.user)
+        return str(self.order_code)
 
     class Meta:
         ordering = ['-order_date']
@@ -106,3 +106,21 @@ class OrderItem(models.Model):
 
     class Meta:
         ordering = ['-id']
+
+
+class Payment(models.Model):
+    order = models.OneToOneField(Order, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, related_name='payments', on_delete=models.CASCADE)
+    amount = models.IntegerField()
+    bank_code = models.CharField(max_length=20)
+    bank_trans = models.CharField(max_length=256)
+    pay_date = models.CharField(max_length=14)
+    order_info = models.CharField(max_length=256)
+    vnp_trans = models.CharField(max_length=15)
+    vnp_TxnRef = models.CharField(max_length=100)
+
+    def __str__(self):
+        return str(self.order)
+
+    class Meta:
+        ordering = ['-pay_date']

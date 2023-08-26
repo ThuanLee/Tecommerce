@@ -20,7 +20,7 @@
 
 .order-detail .card-1 {
   width: 700px;
-  box-shadow: 2px 2px 5px 0px #3761af;
+  border-radius: 0;
 }
 
 .order-detail .card-2 {

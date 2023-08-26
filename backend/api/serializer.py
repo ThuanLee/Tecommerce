@@ -6,15 +6,18 @@ class CategorySerializer(ModelSerializer):
         model = Category
         fields = '__all__'
 
+
 class ProductSerializer(ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
 
+
 class UserProfileSerializer(ModelSerializer):
     class Meta:
         model = UserProfile
         fields = '__all__'
+
 
 class CartSerializer(ModelSerializer):
     grand_total = SerializerMethodField()
@@ -30,6 +33,7 @@ class CartSerializer(ModelSerializer):
         model = Cart
         fields = '__all__'
 
+
 class CartItemSerializer(ModelSerializer):
     total = SerializerMethodField()
     product = ProductSerializer()
@@ -40,6 +44,7 @@ class CartItemSerializer(ModelSerializer):
     class Meta:
         model = CartItem
         fields = '__all__'
+
 
 class OrderSerializer(ModelSerializer):
     order_date = SerializerMethodField()
@@ -59,10 +64,17 @@ class OrderSerializer(ModelSerializer):
         model = Order
         fields = '__all__'
 
+
 class OrderItemSerializer(ModelSerializer):
     product = ProductSerializer()
 
     class Meta:
         model = OrderItem
         fields = '__all__'  
+
+
+class PaymentSerializer(ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = '__all__'
 

@@ -44,6 +44,14 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
 ]
 
+
+# VNPAY config
+VNPAY_TMN_CODE = '8LLPXFIS'
+VNPAY_HASH_SECRET_KEY = 'EFIRSLHJGYBCLEOPKAJKXMJHVWRINDTO'
+VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'
+VNPAY_RETURN_URL = 'http://127.0.0.1:3000/payment/result/'
+
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -148,7 +156,7 @@ REST_FRAMEWORK = {
 
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(seconds=15),
-    'REFRESH_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=15),
     "ROTATE_REFRESH_TOKENS": True,
     "BLACKLIST_AFTER_ROTATION": True,
 }

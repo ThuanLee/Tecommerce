@@ -4,3 +4,4 @@ django-cors-headers==4.1.0
 djangorestframework==3.14.0
 djangorestframework_simplejwt==5.2.2
 pyjwt==2.8.0
+django-ipware==5.0.0

@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 :root {
---theme-bg-color: #396dce;
+--theme-bg-color: #3761af;
 --theme-color: white;
 }
 
@@ -13,10 +13,8 @@
   align-items: center;
   font-size: 1em;
   
-  background-color:#3761af;
   background-color: var(--theme-bg-color);
   
-  color: white;
   color: var(--theme-color);
 
   user-select: none;
@@ -31,6 +29,11 @@
 
 .header .logo:hover {
   cursor: pointer;
+}
+
+.logo a {
+  color: white;
+  text-decoration: none;
 }
 
 .item {

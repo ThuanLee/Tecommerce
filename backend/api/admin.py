@@ -38,3 +38,7 @@ class OrderAdmin(admin.ModelAdmin):
 @admin.register(OrderItem)
 class OrderItemAdmin(admin.ModelAdmin):
     list_display = ['id', 'order', 'product', 'quantity', 'total']
+
+@admin.register(Payment)
+class PaymentAdmin(admin.ModelAdmin):
+    pass

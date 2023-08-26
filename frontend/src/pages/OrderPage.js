@@ -5,6 +5,7 @@ import '../styles/OrderPage.css'
 import { CartContext } from '../contexts/cartContext'
 import { useNavigate } from 'react-router-dom'
 import { createOrder } from '../services/orderService'
+import { getPaymentURL } from '../services/paymentService'
 import { endSessionToast } from '../utils/toast'
 import { moneyFormat } from '../utils/moneyFormat'
 
@@ -34,6 +35,8 @@ const OrderPage = () => {
     const shippingFee = cartContext.cart.grand_total * 0.05
     if (shippingFee > 100000) {
       return 100000 
+    } else if (shippingFee < 10000) {
+      return 10000
     }
     return shippingFee
   }
@@ -56,14 +59,20 @@ const OrderPage = () => {
       "payment_method": payment_method
     }
 
-    try {
-      const response = await createOrder(data)
-      cartContext.setCart([])
-      navigate(`/order/${response.id}/`)
-    } catch (error) {
-      if (error.status === 401) {
-        endSessionToast()
-        navigate('/login/')
+    if (payment_method === "BANKING") {
+      const response = await getPaymentURL(cartContext.cart.grand_total + shippingFeeCaculate())
+      localStorage.setItem('waitForPayment', JSON.stringify(data))
+      window.location.href = response
+    } else {
+      try {
+        const response = await createOrder(data)
+        cartContext.setCart([])
+        navigate(`/order/${response.id}/`)
+      } catch (error) {
+        if (error.status === 401) {
+          endSessionToast()
+          navigate('/login/')
+        }
       }
     }
   }
@@ -128,15 +137,15 @@ const OrderPage = () => {
             </tr>
             <tr>
               <td>Tổng tiền</td>
-              <td>{moneyFormat(cartContext.cart.grand_total)} VND</td>
+              <td>{moneyFormat(cartContext.cart.grand_total)}</td>
             </tr>
             <tr>
               <td>Phí vận chuyển</td>
-              <td>{moneyFormat(shippingFeeCaculate())} VND</td>
+              <td>{moneyFormat(shippingFeeCaculate())}</td>
             </tr>
             <tr>
               <td>Thanh toán</td>
-              <td>{moneyFormat(cartContext.cart.grand_total + shippingFeeCaculate())} VND</td>
+              <td>{moneyFormat(cartContext.cart.grand_total + shippingFeeCaculate())}</td>
             </tr>
           </table><br/>
 

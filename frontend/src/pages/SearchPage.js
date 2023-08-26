@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
+import { useSearchParams } from 'react-router-dom'
 import ProductList from '../components/ProductList'
 import { getCategoryList, searchProduct } from '../services/productService'
 import '../styles/SearchPage.css'
 
 export const SearchPage = () => {
   // Get query string from url
-  let params = new URLSearchParams(window.location.search)
+  let [params] = useSearchParams()
   let query = params.get('query')
 
   const [searchResult, setSearchResult] = useState([])

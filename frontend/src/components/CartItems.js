@@ -75,7 +75,7 @@ const CartItems = () => {
       <div className="totals">
         <div className="totals-item totals-item-total">
           <label>Tổng cộng</label>
-          <div className="totals-value" id="cart-total">{moneyFormat(cartContext.cart.grand_total * 1.1)}</div>
+          <div className="totals-value" id="cart-total">{moneyFormat(cartContext.cart.grand_total)}</div>
         </div>
       </div>
 

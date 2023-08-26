@@ -8,6 +8,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from uuid import uuid4
+from .vnpay import vnpay 
 
 @api_view(['GET'])
 def getProductList(request):
@@ -241,4 +242,39 @@ def createOrder(request):
 
     serializer = OrderSerializer(order, many=False)
 
+    return Response(serializer.data)
+
+
+@api_view(['POST'])
+@permission_classes([IsAuthenticated])
+def getPaymentURL(request):
+    vnp = vnpay(request)
+    payment_url = vnp.get_payment_url()
+    return Response(payment_url)
+
+
+@api_view(['POST'])
+def savePaymentResult(request):
+    order = request.data.get('order')
+    user = int(request.data.get('order_info').split(' ')[0])
+    amount = int(request.data.get('amount')) / 100
+    bank_code = request.data.get('bank_code')
+    bank_trans = request.data.get('bank_trans')
+    pay_date = request.data.get('pay_date')
+    order_info = request.data.get('order_info')
+    vnp_trans = request.data.get('vnp_trans')
+    vnp_TxnRef = request.data.get('vnp_TxnRef')
+
+    payment = Payment.objects.create(order_id=order,
+                           user_id=user,
+                           amount=amount,
+                           bank_code=bank_code,
+                           bank_trans=bank_trans,
+                           pay_date=pay_date,
+                           order_info=order_info,
+                           vnp_trans=vnp_trans,
+                           vnp_TxnRef=vnp_TxnRef)
+
+
+    serializer = PaymentSerializer(payment, many=False)
     return Response(serializer.data)

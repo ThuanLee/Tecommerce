@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useState } from 'react'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { UserContext } from '../contexts/userContext'
 import { useNavigate } from 'react-router-dom'
 import { getProfile, updateProfile } from '../services/userService'
 import '../styles/ProfilePage.css'
 import { CartContext } from '../contexts/cartContext'
-import { endSessionToast, errorToast } from '../utils/toast'
+import { errorToast } from '../utils/toast'
 import OrderList from '../components/OrderList'
+import { useEndSession } from '../utils/userAuth'
+
 
 const ProfilePage = () => {
 
   const navigate = useNavigate()
-  const userContext = useContext(UserContext)
   const cartContext = useContext(CartContext)
+  const endSession = useEndSession()
   
   const [profile, setProfile] = useState([])
 
@@ -30,7 +31,7 @@ const ProfilePage = () => {
         setProfile(data)
       } catch (error) {
         if (error.status === 401) {
-          logout()
+          endSession()
         }
       }
     }
@@ -81,8 +82,8 @@ const ProfilePage = () => {
       }
       
     } catch (error) {
-      if (error.status === 401) {
-        logout()
+      if (error.response.status === 401) {
+        endSession()
       }
     }
 
@@ -96,7 +97,7 @@ const ProfilePage = () => {
 
   const logout = () => {
     cartContext.setCart([])
-    endSessionToast()
+    localStorage.removeItem('token')
     navigate('/login/')
   }
 
@@ -156,7 +157,7 @@ const ProfilePage = () => {
                     <input type='submit' id="edit-profile-btn" className="btn btn-info" value="Chỉnh sửa" />
                   </div>
                   <div className='col-sm-1'>
-                    <LogoutIcon onClick={logout} />
+                    <LogoutIcon className='logout-icon' onClick={logout} />
                   </div>
                 </div>
               </div>

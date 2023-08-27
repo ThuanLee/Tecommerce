@@ -1,4 +1,4 @@
-import axios from '../utils/axious'
+import axios from '../utils/axios'
 
 const getPaymentURL = async (amount) => {
     const data = {"amount": amount}

@@ -4,7 +4,7 @@ import { getProduct } from '../services/productService'
 import '../styles/ProductDetailPage.css'
 import { CartContext } from '../contexts/cartContext'
 import { addCartItem } from '../services/cartSevice'
-import { moneyFormat } from '../utils/moneyFormat'
+import { moneyFormat } from '../utils/money'
 import { addCartItemToast, loginFirstToast } from '../utils/toast'
 
 

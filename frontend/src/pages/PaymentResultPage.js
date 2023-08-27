@@ -1,14 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { createOrder } from '../services/orderService'
 import { savePaymentResult } from '../services/paymentService'
-import { endSessionToast } from '../utils/toast'
+import { useEndSession } from '../utils/userAuth'
 
 const PaymentResultPage = () => {
   
   const cartContext = useContext(CartContext)
-  const navigate = useNavigate()
+  const endSession = useEndSession()
 
   const [orderId, setOrderId] = useState([])
 
@@ -42,8 +42,7 @@ const PaymentResultPage = () => {
 
         } catch (error) {
           if (error.status === 401) {
-            endSessionToast()
-            navigate('/login/')
+            endSession()
           }
         }
       }

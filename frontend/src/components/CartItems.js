@@ -3,12 +3,13 @@ import { Link, useNavigate } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { deleteCartItem, getCartItems } from '../services/cartSevice'
 import { removeCartItemToast, endSessionToast } from '../utils/toast'
-import { moneyFormat } from '../utils/moneyFormat'
+import { moneyFormat } from '../utils/money'
+import { useEndSession } from '../utils/userAuth'
 
 const CartItems = () => {
 
   const cartContext = useContext(CartContext)
-  const navigate = useNavigate()
+  const endSession = useEndSession()
 
   const [cartItems, setCartItems] = useState([])
 
@@ -18,15 +19,13 @@ const CartItems = () => {
         const data = await getCartItems()
         setCartItems(data)
       } catch (error) {
-        if (error.status === 401) {
-          cartContext.setCart([])
-          endSessionToast()
-          navigate('/login/')
+        if (error.response.status === 401) {
+          endSession()
         }
       }
     }
     callAPI()
-  }, [cartContext, navigate])
+  }, [])
 
   const removeCartItem = async (cartItem) => {
     try {
@@ -35,11 +34,9 @@ const CartItems = () => {
       setCartItems(response.cartItems)
       removeCartItemToast(cartItem.product.name)
     } catch (error) {
-      cartContext.setCart([])
-      navigate('/')
+      endSession()
     }
   }
-
 
   return (
     <div className="shopping-cart">

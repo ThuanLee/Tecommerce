@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom'
 import '../styles/ProductList.css'
-import { moneyFormat } from '../utils/moneyFormat'
+import { moneyFormat } from '../utils/money'
 
 const ProductList = ({productList}) => {
 

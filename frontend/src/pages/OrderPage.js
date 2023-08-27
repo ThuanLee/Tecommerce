@@ -6,14 +6,19 @@ import { CartContext } from '../contexts/cartContext'
 import { useNavigate } from 'react-router-dom'
 import { createOrder } from '../services/orderService'
 import { getPaymentURL } from '../services/paymentService'
-import { endSessionToast } from '../utils/toast'
-import { moneyFormat } from '../utils/moneyFormat'
+import { moneyFormat, shippingFee } from '../utils/money'
+import { useEndSession } from '../utils/userAuth'
 
 const OrderPage = () => {
 
   const navigate = useNavigate()
-
   const cartContext = useContext(CartContext)
+  const endSession = useEndSession()
+
+  if (!cartContext.cart.quantity_in_cart) {
+    navigate('/cart/', {replace:true})
+  }
+
   const [cartItems, setCartItems] = useState([])
 
   useEffect(() => {
@@ -22,57 +27,52 @@ const OrderPage = () => {
         const data = await getCartItems()
         setCartItems(data)
       } catch (error) {
-        if (error.status === 401) {
-          endSessionToast()
-          navigate('/login/')
-        }
+        endSession()
       }
     }
     callAPI()
-  }, [navigate])
-
-  const shippingFeeCaculate = () => {
-    const shippingFee = cartContext.cart.grand_total * 0.05
-    if (shippingFee > 100000) {
-      return 100000 
-    } else if (shippingFee < 10000) {
-      return 10000
-    }
-    return shippingFee
-  }
+  }, [])
 
   const orderHandle = async (e) => {
     e.preventDefault()
-
-    const receiver_name = e.target.receiver_name.value
-    const phone_number = e.target.phone_number.value
-    const address = e.target.address.value
-    const note = e.target.note.value
     const payment_method = document.querySelector('input[name="payment-method"]:checked').value;
 
     const data = {
-      "shipping_fee": shippingFeeCaculate(),
-      "receiver_name": receiver_name,
-      "phone_number": phone_number,
-      "address": address,
-      "note": note,
+      "shipping_fee": shippingFee(cartContext.cart.grand_total),
+      "receiver_name": e.target.receiver_name.value,
+      "phone_number": e.target.phone_number.value,
+      "address": e.target.address.value,
+      "note": e.target.note.value,
       "payment_method": payment_method
     }
 
     if (payment_method === "BANKING") {
-      const response = await getPaymentURL(cartContext.cart.grand_total + shippingFeeCaculate())
-      localStorage.setItem('waitForPayment', JSON.stringify(data))
-      window.location.href = response
+      bankingProcess(data)
     } else {
-      try {
-        const response = await createOrder(data)
-        cartContext.setCart([])
-        navigate(`/order/${response.id}/`)
-      } catch (error) {
-        if (error.status === 401) {
-          endSessionToast()
-          navigate('/login/')
-        }
+      codProcess(data)
+    }
+  }
+
+  const bankingProcess = async (data) => {
+    try {
+      const response = await getPaymentURL(cartContext.cart.grand_total + shippingFee(cartContext.cart.grand_total))
+      localStorage.setItem('waitForPayment', JSON.stringify(data))
+      window.location.replace(response)
+    } catch (error) {
+      if (error.response.status === 401) {
+        endSession()
+      }
+    }
+  }
+
+  const codProcess = async (data) => {
+    try {
+      const response = await createOrder(data)
+      cartContext.setCart([])
+      navigate(`/order/${response.id}/`)
+    } catch (error) {
+      if (error.response.status === 401) {
+        endSession()
       }
     }
   }
@@ -141,11 +141,11 @@ const OrderPage = () => {
             </tr>
             <tr>
               <td>Phí vận chuyển</td>
-              <td>{moneyFormat(shippingFeeCaculate())}</td>
+              <td>{moneyFormat(shippingFee(cartContext.cart.grand_total))}</td>
             </tr>
             <tr>
               <td>Thanh toán</td>
-              <td>{moneyFormat(cartContext.cart.grand_total + shippingFeeCaculate())}</td>
+              <td>{moneyFormat(cartContext.cart.grand_total + shippingFee(cartContext.cart.grand_total))}</td>
             </tr>
           </table><br/>
 

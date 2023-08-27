@@ -1,4 +1,4 @@
-import axios from "../utils/axious";
+import axios from "../utils/axios";
 
 const signup = async(username, email, password) => {
     let data = {"username": username, "email": email, "password": password}

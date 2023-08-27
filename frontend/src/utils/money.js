@@ -17,4 +17,14 @@ const moneyFormat = (money) => {
   )
 }
 
-export { moneyFormat }
+const shippingFee = (amount) => {
+  const shippingFee = amount * 0.05
+  if (shippingFee > 100000) {
+    return 100000 
+  } else if (shippingFee < 10000) {
+    return 10000
+  }
+  return shippingFee
+}
+
+export { moneyFormat, shippingFee }

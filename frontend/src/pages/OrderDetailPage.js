@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import { getOrderDetail, getOrderItems } from '../services/orderService'
-import { endSessionToast } from '../utils/toast'
-import { moneyFormat } from '../utils/moneyFormat'
+import { moneyFormat } from '../utils/money'
 import '../styles/OrderDetailPage.css'
+import { useEndSession } from '../utils/userAuth'
 
 const OrderDetailPage = () => {
 
   const params = useParams()
   const orderId = params.id
 
-  const navigate = useNavigate()
+  const endSession = useEndSession()
 
   const [order, setOrder] = useState([])
   const [orderItems,setOrderItems] = useState([])
@@ -23,14 +23,13 @@ const OrderDetailPage = () => {
         const orderItemsData = await getOrderItems(orderId)
         setOrderItems(orderItemsData)
       } catch (error) {
-        if (error.status === 401) {
-          endSessionToast()
-          navigate('/login/')
+        if (error.response.status === 401) {
+          endSession()
         }
       }
     }
     callAPI()
-  }, [navigate, orderId])
+  }, [])
 
   return (
     <div className='order-detail'>
@@ -75,15 +74,15 @@ const OrderDetailPage = () => {
                     </div>
                     <div className="row justify-content-between">
                       <div className="flex-sm-col text-right col"><p className="mb-1"> <b>Tổng</b></p> </div>
-                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.grand_total)} VND</p></div>
+                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.grand_total)}</p></div>
                     </div>
                     <div className="row justify-content-between">
                       <div className="flex-sm-col text-right col"><p className="mb-1"><b>Phí vận chuyển</b></p></div>
-                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.shipping_fee)} VND</p></div>
+                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.shipping_fee)}</p></div>
                     </div>
                     <div className="row justify-content-between">
                       <div className="flex-sm-col text-right col"><p className="mb-1"><b>Thanh toán</b></p></div>
-                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.grand_total + order.shipping_fee)} VND</p></div>
+                      <div className="flex-sm-col col-auto"><p className="mb-1">{moneyFormat(order.grand_total + order.shipping_fee)}</p></div>
                     </div>
                   </div>
                 </div>

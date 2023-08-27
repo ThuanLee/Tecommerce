@@ -1,4 +1,4 @@
-import axios from "../utils/axious"
+import axios from "../utils/axios"
 
 const createOrder = async (data) => {
     return await axios.post('api/order/create/', data)

@@ -2,16 +2,14 @@ import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import '../styles/LoginPage.css'
 import { login } from '../services/userService'
-import { UserContext } from '../contexts/userContext'
 import { CartContext } from '../contexts/cartContext'
 import { getCart } from '../services/cartSevice';
 import { errorToast } from '../utils/toast'
-import { checkLogged, getUserId } from '../utils/userAuth'
+import { getUserId } from '../utils/userAuth'
 
 const LoginPage = () => {
 
   const navigate = useNavigate()
-  const userContext = useContext(UserContext)
   const cartContext = useContext(CartContext)
 
   const handleSubmit = async(e) => {
@@ -27,7 +25,6 @@ const LoginPage = () => {
       errorToast("Mật khẩu không đúng")
     } else {
       localStorage.setItem('token', JSON.stringify(response))
-      userContext.setLogged(checkLogged())
       cartContext.setCart(await getCart(getUserId()))
       navigate('/profile/')
     }

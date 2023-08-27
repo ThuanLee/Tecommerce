@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { getOrderList } from '../services/orderService'
-import { endSessionToast } from '../utils/toast'
+import { useEndSession } from '../utils/userAuth'
+
 
 const OrderList = () => {
 
-  const navigate = useNavigate()
+  const endSession = useEndSession()
 
   const [orderList, setOrderList] = useState([])
 
@@ -16,13 +17,12 @@ const OrderList = () => {
         setOrderList(data)
       } catch (error) {
         if (error.status === 401) {
-          endSessionToast()
-          navigate('/login/')
+          endSession()
         }
       }
     }
     callAPI()
-  }, [navigate])
+  }, [])
 
   return (
     <div>

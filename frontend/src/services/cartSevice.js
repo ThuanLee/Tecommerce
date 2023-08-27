@@ -1,4 +1,4 @@
-import axios from '../utils/axious'
+import axios from '../utils/axios'
 
 const getCart = async () => {
     return await axios.get(`api/cart/`)

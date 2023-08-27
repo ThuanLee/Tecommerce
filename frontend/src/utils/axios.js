@@ -25,7 +25,14 @@ instance.interceptors.response.use(
 );
 
 instance.interceptors.request.use(async request => {
+  // Get token
+  let keepLogin = JSON.parse(localStorage.getItem('keepLogin'))
   let token = JSON.parse(localStorage.getItem('token'))
+
+  if (!keepLogin) {
+    token = JSON.parse(sessionStorage.getItem('token'))
+  }
+
   if (!token) {
     return request
   }
@@ -38,19 +45,29 @@ instance.interceptors.request.use(async request => {
       const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/token/refresh/`, {
         refresh: token.refresh
       })
-      localStorage.setItem('token', JSON.stringify(response.data))
+      if (keepLogin) {
+        localStorage.setItem('token', JSON.stringify(response.data))
+      } else {
+        sessionStorage.setItem('token', JSON.stringify(response.data))
+      }
     } catch (error) {
       // If refresh token expired, remove token in local storage
       if (error.response.data.detail === "Token is invalid or expired") {
         localStorage.removeItem('token')
+        localStorage.removeItem('keepLogin')
+        sessionStorage.removeItem('token')
         return request
       }
     }
   }
 
-  token = JSON.parse(localStorage.getItem('token'))
+  if (keepLogin) {
+    token = JSON.parse(localStorage.getItem('token'))
+  } else {
+    token = JSON.parse(sessionStorage.getItem('token'))
+  }
+
   request.headers.Authorization = `Bearer ${token.access}`
-  
   return request
 })
 

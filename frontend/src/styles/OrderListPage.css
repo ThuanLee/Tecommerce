@@ -1,0 +1,25 @@
+.order-list {
+    padding-top: 50px;
+}
+
+.order-list a {
+    text-decoration: none;
+    padding: 10px 0 10px 0;
+    border-bottom: solid 1px;
+    border-left: solid 1px;
+    border-right: solid 1px;
+    color: #272829;
+}
+
+.order-list .label {
+    text-align: center;
+    font-weight: 400;
+    font-size: 18px;
+    color: var(--theme-bg-color);
+    padding: 10px 0 10px 0;
+    border: solid 2px;
+}
+
+.order-list .order {
+    text-align: center;
+}

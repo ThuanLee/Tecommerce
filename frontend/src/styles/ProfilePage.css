@@ -67,3 +67,14 @@
 .logout-icon {
   color: red;
 }
+
+.my-order {
+  display: flex;
+  align-items: center;
+  color: var(--theme-bg-color);
+}
+
+.my-order div:hover {
+  cursor: pointer;
+  text-decoration: underline;
+}

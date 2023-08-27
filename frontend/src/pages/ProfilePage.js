@@ -5,7 +5,6 @@ import { getProfile, updateProfile } from '../services/userService'
 import '../styles/ProfilePage.css'
 import { CartContext } from '../contexts/cartContext'
 import { errorToast } from '../utils/toast'
-import OrderList from '../components/OrderList'
 import { useEndSession } from '../utils/userAuth'
 
 
@@ -98,6 +97,8 @@ const ProfilePage = () => {
   const logout = () => {
     cartContext.setCart([])
     localStorage.removeItem('token')
+    localStorage.removeItem('keepLogin')
+    sessionStorage.removeItem('token')
     navigate('/login/')
   }
 
@@ -153,10 +154,13 @@ const ProfilePage = () => {
                 <hr />
 
                 <div className="row">
-                  <div className="col-sm-11">
+                  <div className="col-sm-2">
                     <input type='submit' id="edit-profile-btn" className="btn btn-info" value="Chỉnh sửa" />
                   </div>
-                  <div className='col-sm-1'>
+                  <div className="col-sm-9 my-order">
+                    <div onClick={() => navigate('/order/all/')}>Đơn hàng của tôi</div>
+                  </div>
+                  <div className='col-sm-1 align-self-center'>
                     <LogoutIcon className='logout-icon' onClick={logout} />
                   </div>
                 </div>
@@ -166,8 +170,6 @@ const ProfilePage = () => {
 
         </div>
       </div>
-
-      <OrderList />
       
     </div>
   )

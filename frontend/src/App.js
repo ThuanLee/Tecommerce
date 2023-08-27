@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, BrowserRouter, Navigate} from 'react-router-dom';
+import { Route, Routes, BrowserRouter} from 'react-router-dom';
 import Header from './components/Header';
 import HomePage from './pages/HomePage';
 import ProductDetailPage from './pages/ProductDetailPage';
@@ -15,6 +15,7 @@ import OrderPage from './pages/OrderPage';
 import OrderDetailPage from './pages/OrderDetailPage';
 import PaymentResultPage from './pages/PaymentResultPage';
 import { LoggedRoute, UnLoggedRoute } from './utils/ProtectRoute';
+import OrderList from './pages/OrderListPage';
 
 function App() {
   return (
@@ -40,14 +41,9 @@ function App() {
             <Route path='/profile/' element={<ProfilePage />} />
             <Route path='/order/' element={<OrderPage />} />
             <Route path='/payment/result/' element={<PaymentResultPage />} />
+            <Route path='/order/all/' element={<OrderList />} />
           </Route>
 
-          {/* <Route path='/order/:id/' element={checkLogged() ? <OrderDetailPage /> : <Navigate to='/login/' />} />
-            <Route path='/cart/' element={checkLogged() ? <CartPage /> : <Navigate to='/login/' />} />
-            <Route path='/profile/' element={checkLogged() ? <ProfilePage /> : <Navigate to='/login/' />} />
-            <Route path='/order/' element={checkLogged() ? <OrderPage /> : <Navigate to='/login/' />} />
-            <Route path='/payment/result/' element={checkLogged() ? <PaymentResultPage /> : <Navigate to='/login/' />} /> */}
-          
         </Routes>
 
         <Footer />

@@ -7,7 +7,12 @@ import { endSessionToast } from './toast';
 
 // Return user id if refresh token still available, or return false
 export const checkLogged = () => {
+  let keepLogin = JSON.parse(localStorage.getItem('keepLogin'))
   let token = JSON.parse(localStorage.getItem('token'))
+  if (!keepLogin) {
+    token = JSON.parse(sessionStorage.getItem('token'))
+  }
+
   if (token) {
     const refresh = jwt_decode(token.refresh)
     // Refresh token expire in 2 miliseconds
@@ -21,7 +26,11 @@ export const checkLogged = () => {
 
 // Get user id from access token
 export const getUserId = () => {
-  const token = JSON.parse(localStorage.getItem('token'))
+  let keepLogin = JSON.parse(localStorage.getItem('keepLogin'))
+  let token = JSON.parse(localStorage.getItem('token'))
+  if (!keepLogin) {
+    token = JSON.parse(sessionStorage.getItem('token'))
+  }
   const userId = jwt_decode(token.access).user_id
   return userId
 }

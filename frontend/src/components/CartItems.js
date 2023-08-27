@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { deleteCartItem, getCartItems } from '../services/cartSevice'
-import { removeCartItemToast, endSessionToast } from '../utils/toast'
+import { removeCartItemToast } from '../utils/toast'
 import { moneyFormat } from '../utils/money'
 import { useEndSession } from '../utils/userAuth'
 

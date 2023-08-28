@@ -8,14 +8,13 @@
   display:flex;
   margin-left: auto;
   align-items: center;
-  width: 30%;
+  width: 40%;
   min-width: 150px;
   border-radius: 10px;
   border: 2px solid grey;
   overflow: hidden;
-  background: white;
-  border-color: white;
-  color: var(--theme-color);
+  border-color: var(--theme-color);
+  color: var(--theme-bg-color);
 }
 
 .item.search .search-icon {
@@ -24,12 +23,12 @@
 }
 
 .item.search .search-icon:hover {
-  color: black;
+  color: var(--theme-color);
 }
 
 .item.search input {
   width: 100%;
-  padding: 10px 5px 10px 20px;
+  padding: 12px 5px 10px 20px;
   outline: none;
   border: 0;
   max-width: 100%;

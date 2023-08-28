@@ -56,7 +56,7 @@ const CartItems = () => {
           <div className="product-image">
             <img src={cartItem.product.image_url} alt='cart item img'/>
           </div>
-          <div className="product-title"><p><b>{cartItem.product.name}</b></p></div>
+          <div className="product-title"><p>{cartItem.product.name}</p></div>
           <div className="product-price">{moneyFormat(cartItem.product.price)}</div>
           <div className="product-quantity">{cartItem.quantity}</div>
           <div className="product-removal">

@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <nav className="header">
       <div className="logo" onClick={() => navigate("/")}>
-        TCOMMERCE
+        <p>TCOMMERCE</p>
       </div>
 
       <SearchBar />
@@ -34,13 +34,13 @@ const Header = () => {
       <div className="item cart" onClick={cartHandle}>
       <Badge color="secondary" badgeContent={cartContext.cart.quantity_in_cart}
         max={99} anchorOrigin={{vertical: 'top', horizontal: 'right',}}>
-        <ShoppingCartIcon />
+        <ShoppingCartIcon sx={{ fontSize: 26 }} />
       </Badge>
 
       </div>
 
       <div className="item user" onClick={() => checkLogged() ? navigate("/profile/") : navigate("/login/")}>
-        <PersonIcon sx={{ fontSize: 26 }}/>
+        <PersonIcon sx={{ fontSize: 30 }}/>
       </div>
     </nav>
   )

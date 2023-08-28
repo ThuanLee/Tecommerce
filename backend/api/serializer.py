@@ -8,6 +8,11 @@ class CategorySerializer(ModelSerializer):
 
 
 class ProductSerializer(ModelSerializer):
+    arrival_time = SerializerMethodField()
+
+    def get_arrival_time(self, obj):
+        return obj.arrival_time.strftime("%Y%m%d%H%M%S")
+
     class Meta:
         model = Product
         fields = '__all__'

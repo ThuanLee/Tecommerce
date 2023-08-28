@@ -1,5 +1,4 @@
 .order-page{
-  font-family: 'Roboto Condensed', sans-serif;
   color: #262626;
   margin: 5% 0;
   margin-right: auto;
@@ -120,7 +119,7 @@
   background: #428a7d;
 }
 .order-page .shopping-cart{
-  padding: 50px;
+  padding: 50px 70px 0 0;
 }
 .order-page .product-removal{
   text-indent: -9999px;

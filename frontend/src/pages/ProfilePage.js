@@ -112,7 +112,9 @@ const ProfilePage = () => {
               <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" className="rounded-circle" width="150" />
               <div className="mt-3">
                 <h4>{profile.username}</h4>
-                <p className="text-muted font-size-sm">Thành viên bạc</p>
+                <div className="my-order">
+                    <div onClick={() => navigate('/order/all/')}>Đơn hàng của tôi</div>
+                </div>
               </div>
             </div>
           </div>
@@ -154,11 +156,8 @@ const ProfilePage = () => {
                 <hr />
 
                 <div className="row">
-                  <div className="col-sm-2">
+                  <div className="col-sm-11">
                     <input type='submit' id="edit-profile-btn" className="btn btn-info" value="Chỉnh sửa" />
-                  </div>
-                  <div className="col-sm-9 my-order">
-                    <div onClick={() => navigate('/order/all/')}>Đơn hàng của tôi</div>
                   </div>
                   <div className='col-sm-1 align-self-center'>
                     <LogoutIcon className='logout-icon' onClick={logout} />

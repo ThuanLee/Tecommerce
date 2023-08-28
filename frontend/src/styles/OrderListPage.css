@@ -11,15 +11,22 @@
     color: #272829;
 }
 
+.order-list h2 {
+    color: #164B60;
+}
+
 .order-list .label {
     text-align: center;
     font-weight: 400;
     font-size: 18px;
-    color: var(--theme-bg-color);
     padding: 10px 0 10px 0;
     border: solid 2px;
 }
 
 .order-list .order {
     text-align: center;
+}
+
+.order-list .order:hover {
+    color: var(--theme-color);
 }

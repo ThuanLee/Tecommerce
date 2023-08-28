@@ -19,7 +19,6 @@ instance.interceptors.response.use(
   },
   (error) => {
     // Xử lý lỗi chung
-    console.log('Auth error');
     return Promise.reject(error);
   }
 );

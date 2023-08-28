@@ -5,3 +5,4 @@ djangorestframework==3.14.0
 djangorestframework_simplejwt==5.2.2
 pyjwt==2.8.0
 django-ipware==5.0.0
+django-jazzmin==2.6.0

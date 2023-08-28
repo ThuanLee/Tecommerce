@@ -1,17 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 :root {
---theme-bg-color: #3761af;
---theme-color: white;
+--theme-bg-color: white ;
+--theme-color: #3761af;
 }
 
 .header {
   width: 100%;
-  height: 10%;
+  height: 100px;
 
   display: flex;
-  box-shadow: 0 0 2px 0 grey;
+  box-shadow: 0 0 3px 0 grey;
   align-items: center;
-  font-size: 1em;
   
   background-color: var(--theme-bg-color);
   
@@ -20,26 +19,22 @@
   user-select: none;
 }
 
-.header .logo {
-  font-size: 1.5em;
+.header p {
   align-items: center;
   display: flex;
-  padding-left: 15px;
+  padding-left: 45px;
+  font-size: 40px;
+  font-weight: 600;
+  margin: 0;
 }
 
 .header .logo:hover {
   cursor: pointer;
 }
 
-.logo a {
-  color: white;
-  text-decoration: none;
-}
-
 .item {
   margin: 10px;
   text-decoration: none;
-  color: white;
   color: var(--theme-color);
 }
 
@@ -47,10 +42,11 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  margin-left: 20px;
 }
 
 .item.user {
   display: flex;
   align-items: center;
-  margin-right: 20px;
+  margin: 0 30px 0 10px;
 }

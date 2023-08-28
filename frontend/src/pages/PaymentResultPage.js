@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import { CartContext } from '../contexts/cartContext'
 import { createOrder } from '../services/orderService'
 import { savePaymentResult } from '../services/paymentService'
@@ -9,8 +9,7 @@ const PaymentResultPage = () => {
   
   const cartContext = useContext(CartContext)
   const endSession = useEndSession()
-
-  const [orderId, setOrderId] = useState([])
+  const navigate = useNavigate()
 
   const [params] = useSearchParams()
 
@@ -25,8 +24,6 @@ const PaymentResultPage = () => {
           const orderResponse = await createOrder(order)
           cartContext.setCart([])
 
-          setOrderId(orderResponse.id)
-
           const payment ={
             'order': orderResponse.id,
             'amount': params.get('vnp_Amount'),
@@ -38,7 +35,11 @@ const PaymentResultPage = () => {
             'vnp_TxnRef': params.get('vnp_TxnRef')
           }
 
-          await savePaymentResult(payment)
+          const paymentResponse = await savePaymentResult(payment)
+
+          if (paymentResponse) {
+            navigate(`/order/${orderResponse.id}/`, {replace: true})
+          }
 
         } catch (error) {
           if (error.status === 401) {
@@ -46,14 +47,12 @@ const PaymentResultPage = () => {
           }
         }
       }
-
       callAPI()
     }
   }, [])
 
   return (
     <div>
-      <Link to={`/order/${orderId}/`}>Chi tiết đơn hàng</Link>
     </div>
   )
 }

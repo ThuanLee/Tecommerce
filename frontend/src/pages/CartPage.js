@@ -9,9 +9,9 @@ const CartPage = () => {
 
   return (
     <div className='cart-page'>
-      <h1>Giỏ hàng của bạn</h1>
+      <p className='my-cart'>Giỏ hàng của bạn</p>
       {
-        context.cart.quantity_in_cart ? <CartItems /> : <p>Bạn chưa chọn sản phẩm nào</p>
+        context.cart.quantity_in_cart ? <CartItems /> : <p className='empty-cart'>Bạn chưa chọn sản phẩm nào</p>
       }   
     </div>
   )

@@ -50,7 +50,7 @@ const OrderDetailPage = () => {
                           <div className= "row media">
 
                             <div className="col-sm-1 sq align-self-center "> 
-                              <img className="my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" alt='product-img' src="https://s.cdpn.io/3/dingo-dog-bones.jpg" width="35" height="35" /> 
+                              <img className="my-auto align-self-center mr-2 mr-md-4 pl-0 p-0 m-0" alt='product-img' src={orderItem.product.image_url} width="35" height="35" /> 
                             </div>
 
                             <div className="col-sm-11 media-body my-auto">

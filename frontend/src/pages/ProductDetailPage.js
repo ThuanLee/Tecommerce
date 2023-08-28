@@ -41,13 +41,13 @@ const ProductDetailPage = () => {
 
   return (
     <div className="product-detail container">
-      <div className="detail row">
+      <div className="row">
         <div className='col'>
           <img src={product.image_url} alt="product" width="600px" />
         </div>
           
-        <div className="col">
-          <h4>{product.name}</h4>
+        <div className="detail col">
+          <h4 className='pt-4'>{product.name}</h4>
           <p>{product.description}</p>
           <h5>{moneyFormat(product.price)}</h5>
           <p><i>Kho: {product.quantity_in_stock}</i></p>

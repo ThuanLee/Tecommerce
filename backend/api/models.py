@@ -32,6 +32,7 @@ class Product(models.Model):
     description = models.TextField(null=True, blank=True)
     price = models.IntegerField()
     quantity_in_stock = models.IntegerField()
+    arrival_time = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name

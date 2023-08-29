@@ -50,6 +50,16 @@
   margin-top: 12px;
   padding-right: 10px;
 }
+.order-form .default-receiver{
+  margin: 0 0 20px 15px;
+  font-size: 15px;
+  user-select: none;
+}
+.default-receiver i:hover{
+  color: red;
+  cursor: pointer;
+}
+
 .receive-info input{
   width: 70%;
   height: 30px;
@@ -97,6 +107,13 @@
 
 .payment-methods{
   padding: 20px;
+  user-select: none;
+}
+
+.payment-methods label {
+  display: block;
+  padding: 0;
+  margin-bottom: 5px;
 }
 
 .place-order{

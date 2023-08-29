@@ -8,6 +8,7 @@ import { createOrder } from '../services/orderService'
 import { getPaymentURL } from '../services/paymentService'
 import { moneyFormat, shippingFee } from '../utils/money'
 import { useEndSession } from '../utils/userAuth'
+import { getProfile } from '../services/userService'
 
 const OrderPage = () => {
 
@@ -27,11 +28,26 @@ const OrderPage = () => {
         const data = await getCartItems()
         setCartItems(data)
       } catch (error) {
-        endSession()
+        if (error.response.status === 401) {
+          endSession()
+        }
       }
     }
     callAPI()
   }, [])
+
+  const defaultInfo = async () => {
+    try {
+      const profile = await getProfile()
+      document.querySelector('input[name="receiver_name"]').value = profile.fullname;
+      document.querySelector('input[name="phone_number"]').value = profile.phone_number;
+      document.querySelector('input[name="address"]').value = profile.address;
+    } catch (error) {
+      if (error.response.status === 401) {
+        endSession()
+      }
+    }
+  }
 
   const orderHandle = async (e) => {
     e.preventDefault()
@@ -69,7 +85,7 @@ const OrderPage = () => {
     try {
       const response = await createOrder(data)
       cartContext.setCart([])
-      navigate(`/order/${response.id}/`)
+      navigate(`/order/${response.id}/`, {replace: true})
     } catch (error) {
       if (error.response.status === 401) {
         endSession()
@@ -86,6 +102,10 @@ const OrderPage = () => {
       <div className='order-content'>
 
         <form id='order-form' className="order-form" spellCheck={false} autoComplete='off' onSubmit={orderHandle}>
+          <div className='default-receiver'>
+            <i onClick={defaultInfo}>Sử dụng thông tin mặc định</i>
+          </div>
+
           <div className="receive-info">
             <label>
               <span>Tên người nhận <span className="required">*</span></span>
@@ -113,12 +133,12 @@ const OrderPage = () => {
             <div>
               <h4>Phương thức thanh toán</h4>
             </div>
-            <div>
+            <label>
               <input type="radio" name="payment-method" value="COD" checked/> Thanh toán khi nhận hàng (COD)
-            </div>
-            <div>
+            </label>
+            <label>
               <input type="radio" name="payment-method" value="BANKING" /> Thanh toán bằng tài khoản ngân hàng
-            </div>
+            </label>
             <p>
               Dùng tài khoản ngân hàng của bạn để thanh toán
             </p>

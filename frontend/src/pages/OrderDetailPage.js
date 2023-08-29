@@ -92,6 +92,9 @@ const OrderDetailPage = () => {
                     <p className="mb-1">Ngày đặt hàng: {order.order_date}</p>
                     <p className="mb-1">Trạng thái đơn hàng: {order.status}</p>
                     <p className="mb-1">Phương thức thanh toán: {order.payment_method}</p>
+                    <p className='mb-1'>Tên người nhận: {order.receiver_name}</p>
+                    <p className='mb-1'>Địa chỉ nhận hàng: {order.address}</p>
+                    <p className='mb-1'>Số điện thoại nhận hàng: {order.phone_number}</p>
                   </div>
                 </div>
             </div>

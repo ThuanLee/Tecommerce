@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
-import ProductList from '../components/ProductList'
 import { getCategoryList, searchProduct } from '../services/productService'
 import '../styles/SearchPage.css'
+import ProductList from '../components/ProductList'
 
 export const SearchPage = () => {
   // Get query string from url
@@ -99,7 +99,13 @@ export const SearchPage = () => {
         })
         break
       default:
-        
+        sortedProductList.sort((a, b) => {
+          if (a.id > b.id) {
+            return 1
+          } else {
+            return -1
+          }
+        })
     }
 
     setProductList(sortedProductList)
@@ -198,7 +204,9 @@ export const SearchPage = () => {
         {query !== '' &&
           <p className='search-term'>Kết quả tìm kiếm cho: <i className='text-muted'>'{query}'</i></p>
         }
+
         <ProductList productList={productList} />
+
       </div>
 
     </div>

@@ -5,17 +5,24 @@
     justify-content: space-around;
 }
 
+.product-detail .detail {
+    padding-left: 50px;
+}
+
 .product-detail .add-btn {
     display: flex;
     align-content: center;
     width: fit-content;
     flex-direction: row;
     align-items: center;
+    padding-top: 20px;
 }
 
-.product-detail .add-btn h4 {
+.product-detail .add-btn p {
     margin: 0;
     padding-right: 10px;
+    font-size: 18px;
+    font-weight: 500;
     user-select: none;
 }
 
@@ -30,4 +37,6 @@
 .add-btn input {
     width: 50px;
     margin-right: 10px;
+    padding-left: 5px;
+    border-radius: 5px;
 }

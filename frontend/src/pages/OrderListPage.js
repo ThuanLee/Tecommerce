@@ -28,7 +28,7 @@ const OrderList = () => {
 
   return (
     <div className='container order-list'>
-      <h2 className='pb-4 row justify-content-center'>Đơn hàng của tôi</h2>
+      <h2 className='pb-4 row justify-content-center'>Đơn hàng của tôi ({orderList.length})</h2>
       <div className='row label'>
         <div className='col-1'>STT</div>
         <div className='col-3'>Mã đơn hàng</div>

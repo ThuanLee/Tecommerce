@@ -31,7 +31,7 @@ const SignupPage = () => {
     } else if (response === "email exists") {
       errorToast('Email này đã được đăng ký bởi một tài khoản khác')
     } else if (response === "signup success") {
-      setTimeout(() => navigate('/login/'), 3000)
+      setTimeout(() => navigate('/login/'), 2000)
       signupSuccessToast()
     }
   }

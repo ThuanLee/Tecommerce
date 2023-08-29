@@ -8,7 +8,8 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
 from uuid import uuid4
-from .vnpay import vnpay 
+from .vnpay import vnpay
+from unidecode import unidecode
 
 @api_view(['GET'])
 def getProductList(request):
@@ -33,8 +34,18 @@ def getCategoryList(request):
 @api_view(['POST'])
 def searchProduct(request):
     query = request.data.get('query')
-    products = Product.objects.filter(Q(name__icontains=query) | Q(description__icontains=query))
-    serializer = ProductSerializer(products, many=True)
+
+    # Remove accents and lowercase string
+    query = unidecode(query).lower()
+    products = Product.objects.all()
+    searchResult = []
+    for product in products:
+        print(unidecode(str(product)))
+        if query in unidecode(str(product)).lower():
+            searchResult.append(product)
+
+    # products = Product.objects.filter(name__icontains=query)
+    serializer = ProductSerializer(searchResult, many=True)
     return Response(serializer.data)
 
 @api_view(['POST'])

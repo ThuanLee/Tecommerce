@@ -8,15 +8,15 @@ const ProductList = ({productList}) => {
     <div className="product-list container">
       <div className='row'>
         {productList.map((product) => (
-          <Link to={`/product/${product.id}/`} className="col-md-6 col-lg-4 col-xl-3">
-            <div className="product-card">
+          <Link to={`/product/${product.id}/`}>
+            <div className="product-card col">
                 <div className="image-box">
                   <img src={product.image_url} alt="product" />
                 </div>
 
                 <div className="contentBox">
                   <p className='product-name'>{product.name}</p>
-                  <span>{moneyFormat(product.price)}</span>
+                  <span className='text-info'>{moneyFormat(product.price)}</span>
                 </div>
             </div>
           </Link>

@@ -1,21 +1,34 @@
 version: '3.9'
+
 services:
   backend:
     image: thuanlee215/tecommerce:backend
     build:
       context: ./backend
-      dockerfile: Dockerfile.backend
+      dockerfile: Dockerfile
     ports:
-    - "8000:8000"
+      - "8000:8000"
     volumes:
-    - ./backend:/app
+      - ./backend:/app
 
   frontend:
     image: thuanlee215/tecommerce:frontend
     build:
       context: ./frontend
-      dockerfile: Dockerfile.frontend
+      dockerfile: Dockerfile
     ports:
-    - "3000:3000"
+      - "3000:3000"
     volumes:
-    - ./frontend:/app
+      - ./frontend:/app
+
+  nginx:
+    image: thuanlee215/tecommerce:nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    volumes:
+      - ./nginx:/app

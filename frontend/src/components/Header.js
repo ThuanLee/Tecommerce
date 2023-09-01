@@ -26,7 +26,7 @@ const Header = () => {
   return (
     <nav className="header">
       <div className="logo" onClick={() => navigate("/")}>
-        <p>TCOMMERCE</p>
+        <p>TECOMMERCE</p>
       </div>
 
       <SearchBar />

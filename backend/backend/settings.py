@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-dkcx__bc)zcn-3vh%)i*6))p#((cwtg9p!ltbrn@$znb@-yx^s'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['backend']
 
 # Application definition
 INSTALLED_APPS = [
@@ -49,10 +49,12 @@ INSTALLED_APPS = [
 VNPAY_TMN_CODE = '8LLPXFIS'
 VNPAY_HASH_SECRET_KEY = 'EFIRSLHJGYBCLEOPKAJKXMJHVWRINDTO'
 VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'
-VNPAY_RETURN_URL = 'http://127.0.0.1:3000/payment/result/'
+VNPAY_RETURN_URL = 'http://127.0.0.1/payment/result/'
 
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -60,8 +62,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    "corsheaders.middleware.CorsMiddleware",
-    "django.middleware.common.CommonMiddleware",
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -132,6 +132,9 @@ USE_TZ = False
 
 STATIC_URL = 'static/'
 
+STATIC_ROOT = BASE_DIR / 'static'
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -139,15 +142,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # CORS_ALLOW_ORIGINS = [
-#     "http://localhost:3000",
-#     "http://127.0.0.1:3000"
+#     'http://127.0.0.1:3000',
 # ]
-# CORS_ALLOW_CREDENTIALS = False
 
 CORS_ALLOW_ALL_ORIGINS = True
 
 # JWT setting
-
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
         'rest_framework_simplejwt.authentication.JWTAuthentication',

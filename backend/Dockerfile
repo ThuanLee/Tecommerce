@@ -12,4 +12,6 @@ COPY . .
 
 EXPOSE 8000
 
+RUN python manage.py collectstatic
+
 CMD ["gunicorn", "backend.wsgi:application", "-c", "gunicorn_config.py"]

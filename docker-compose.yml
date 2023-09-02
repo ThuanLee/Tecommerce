@@ -2,24 +2,20 @@ version: '3.9'
 
 services:
   backend:
-    image: thuanlee215/tecommerce:backend
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./backend:/app
+      image: thuanlee215/tecommerce:backend
+      build:
+        context: ./backend
+        dockerfile: Dockerfile
+      ports:
+        - "8000:8000"
 
   frontend:
-    image: thuanlee215/tecommerce:frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
+      image: thuanlee215/tecommerce:frontend
+      build:
+        context: ./frontend
+        dockerfile: Dockerfile
+      volumes:
+        - shared_data:/app/build
 
   nginx:
     image: thuanlee215/tecommerce:nginx
@@ -28,7 +24,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "80:80"
+    volumes:
+      - shared_data:/static
     depends_on:
       - backend
-    volumes:
-      - ./nginx:/app
+
+volumes:
+  shared_data:

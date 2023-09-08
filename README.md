@@ -14,7 +14,7 @@ git clone <repo-url>
 
 Run command below to run server on port 80 (http)
 ```bash
-docker compose up --build
+docker compose up
 ```
 
 If you have some chances in requirements.txt or something like that, you can build container again by using command:

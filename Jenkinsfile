@@ -15,15 +15,17 @@ pipeline {
                 withSonarQubeEnv('Sonarqube') {
                     sh "${scannerHome}/bin/sonar-scanner \
                     -Dsonar.projectKey=develop \
-                    -Dsonar.inclusions=frontend/src/**,backend/**,nginx/**"
+                    -Dsonar.inclusions=*,frontend/src/**,backend/**"
                 }
             }
         }
         stage('Build and push image to dockerhub') {
             steps {
-                sh 'docker compose build'
-                sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-                sh 'docker compose push'
+                timeout(time: 3, unit: 'MINUTES') {
+                    sh 'docker compose build'
+                    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
+                    sh 'docker compose push'
+                }
             }
         }
     }

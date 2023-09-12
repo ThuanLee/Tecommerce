@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    enviroment {
+    environment {
         scannerHome = tool 'SonarQube Scanner 5.0'
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }

@@ -1,6 +1,0 @@
-version: 2
-authtoken: <auth token>
-tunnels:
-  server:
-    addr: nginx:80
-    proto: http

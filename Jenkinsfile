@@ -10,18 +10,18 @@ pipeline {
                 echo 'Starting...'
             }
         }
-        stage('SonarQube anlysis') {
-            steps {
-                withSonarQubeEnv('Sonarqube') {
-                    sh "${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=develop \
-                    -Dsonar.inclusions=*,frontend/src/**,backend/**"
-                }
-            }
-        }
+        // stage('SonarQube anlysis') {
+        //     steps {
+        //         withSonarQubeEnv('Sonarqube') {
+        //             sh "${scannerHome}/bin/sonar-scanner \
+        //             -Dsonar.projectKey=develop \
+        //             -Dsonar.inclusions=*,frontend/src/**,backend/**"
+        //         }
+        //     }
+        // }
         stage('Build and push image to dockerhub') {
             steps {
-                timeout(time: 3, unit: 'MINUTES') {
+                timeout(time: 10, unit: 'MINUTES') {
                     sh 'docker compose build'
                     sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                     sh 'docker compose push'

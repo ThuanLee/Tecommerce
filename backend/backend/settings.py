@@ -37,8 +37,8 @@ INSTALLED_APPS = [
 # VNPAY config
 VNPAY_TMN_CODE = os.getenv('VNPAY_TMN_CODE')
 VNPAY_HASH_SECRET_KEY = os.getenv('VNPAY_HASH_SECRET_KEY')
-VNPAY_PAYMENT_URL = 'https://sandbox.vnpayment.vn/paymentv2/vpcpay.html'
-VNPAY_RETURN_URL = 'http://127.0.0.1/payment/result/'
+VNPAY_PAYMENT_URL = os.getenv('VNPAY_PAYMENT_URL')
+VNPAY_RETURN_URL = os.getenv('VNPAY_RETURN_URL')
 
 
 MIDDLEWARE = [

@@ -16,6 +16,7 @@ import OrderDetailPage from './pages/OrderDetailPage';
 import PaymentResultPage from './pages/PaymentResultPage';
 import { LoggedRoute, UnLoggedRoute } from './utils/ProtectRoute';
 import OrderList from './pages/OrderListPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
   return (
@@ -43,6 +44,8 @@ function App() {
             <Route path='/payment/result/' element={<PaymentResultPage />} />
             <Route path='/order/all/' element={<OrderList />} />
           </Route>
+
+          <Route path='*' exact={true} element={<NotFoundPage />} />
 
         </Routes>
 

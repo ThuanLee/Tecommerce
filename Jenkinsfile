@@ -10,15 +10,15 @@ pipeline {
                 echo 'Starting...'
             }
         }
-        // stage('SonarQube anlysis') {
-        //     steps {
-        //         withSonarQubeEnv('Sonarqube') {
-        //             sh "${scannerHome}/bin/sonar-scanner \
-        //             -Dsonar.projectKey=develop \
-        //             -Dsonar.inclusions=*,frontend/src/**,backend/**"
-        //         }
-        //     }
-        // }
+        stage('Sonar anlysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') {
+                    sh "${scannerHome}/bin/sonar-scanner \
+                    -Dsonar.projectKey=develop \
+                    -Dsonar.inclusions=*,frontend/src/**,backend/**"
+                }
+            }
+        }
         stage('Build and push image to dockerhub') {
             steps {
                 timeout(time: 5, unit: 'MINUTES') {

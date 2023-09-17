@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        scannerHome = tool 'SonarQube Scanner 5.0'
+        scannerHome = tool 'SonarScanner'
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
@@ -12,10 +12,11 @@ pipeline {
         }
         stage('Sonar anlysis') {
             steps {
-                withSonarQubeEnv('SonarQube') {
+                withSonarQubeEnv('SonarCloud') {
                     sh "${scannerHome}/bin/sonar-scanner \
-                    -Dsonar.projectKey=develop \
-                    -Dsonar.inclusions=*,frontend/src/**,backend/**"
+                    -Dsonar.projectKey=thuanlee215_tecommerce \
+                    -Dsonar.organization=thuanlee215 \
+                    -Dsonar.inclusions=*,frontend/src/**,backend/** "
                 }
             }
         }

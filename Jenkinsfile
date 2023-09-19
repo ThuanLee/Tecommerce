@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
     }
     stages {
-        stage('Check config') {
+        stage('Check connect') {
             steps {
                 echo 'Starting...'
             }
@@ -29,11 +29,25 @@ pipeline {
                 }
             }
         }
+        stage('Deploy on ec2') {
+            steps {
+                withCredentials([file(credentialsId: 'ssh_key', variable: 'SSH_KEY')]) {
+                    sh '''
+                    ssh -tt -i $SSH_KEY -o StrictHostKeyChecking=no ubuntu@18.163.214.219 \
+                    "docker compose down --volumes && \
+                    docker compose pull && \
+                    echo 'Y' | docker images prune && \
+                    docker compose up -d && \
+                    exit"
+                    '''
+                }
+            }
+        }
     }
     post {
         always {
             sh 'docker logout'
-            echo 'Complete, Good bye!!'
+            echo 'Enter http://18.163.214.219 to check deploy!!'
         }
     }
 }

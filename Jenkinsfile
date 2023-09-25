@@ -47,6 +47,7 @@ pipeline {
     post {
         always {
             sh 'docker logout'
+            sh 'echo "Y" | docker image prune'
             echo 'Enter http://18.163.214.219 to check deploy!!'
         }
     }

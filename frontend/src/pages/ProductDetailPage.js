@@ -60,14 +60,16 @@ const ProductDetailPage = () => {
         </div>
           
         <div className="detail col">
-          <h4 className='pt-4'>{product.name}</h4>
-          <p className='text-secondary'>{product.description}</p>
-          <h5 className='text-info'>{moneyFormat(product.price)}</h5>
-          <div className='add-btn'>
-            <p>Thêm vào giỏ hàng</p>
-            <input id='buy-quantity' type='number' min='1' max='100' defaultValue={1}></input>
-            <i class="fa-solid fa-cart-plus fa-xl" onClick={addToCart}></i>
+          <h2 className='pt-4 pb-2'>{product.name}</h2>
+          <div className='buy-block'>
+            <h5 className='price text-primary'>{moneyFormat(product.price)}</h5>
+            <div className='add-btn'>
+              <p>Thêm vào giỏ hàng</p>
+              <input id='buy-quantity' type='number' min='1' max='100' defaultValue={1}></input>
+              <i class="fa-solid fa-cart-plus fa-xl" onClick={addToCart}></i>
+            </div>
           </div>
+          <p className='product-description' dangerouslySetInnerHTML={{__html: product.description}}></p>
         </div>
       </div>
     </div>

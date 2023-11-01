@@ -8,7 +8,7 @@ const Footer = () => {
         <div class="row">
           <div class="col-sm-12 col-md-6">
             <h6>About</h6>
-            <p class="text-justify">Tcommerce.com <i>CODE WANTS TO BE SIMPLE </i> is an initiative  to help the upcoming programmers with the code. Tcommerce focuses on providing the most efficient code or snippets as the code wants to be simple. We will help programmers build up concepts in different programming languages that include C++, Java, HTML, CSS, Bootstrap, JavaScript, Python, Android, SQL and Algorithm.</p>
+            <p class="text-justify">Tcommerce.com is an e-commerce site where you can shop to your heart's content. Orders will be sent to your home. We guarantee to bring the best shopping experience. The website uses technologies such as HTML, CSS, Bootstrap, JavaScript, Python, SQL and Nginx.</p>
           </div>
 
           <div class="col-xs-6 col-md-3">

@@ -6,7 +6,13 @@
 }
 
 .product-detail .detail {
+    display: inline;
     padding-left: 50px;
+}
+
+.product-detail .product-description img {
+    object-fit: cover;
+    width: 100%;
 }
 
 .product-detail .add-btn {
@@ -15,7 +21,6 @@
     width: fit-content;
     flex-direction: row;
     align-items: center;
-    padding-top: 20px;
 }
 
 .product-detail .add-btn p {
@@ -32,6 +37,18 @@
 
 .product-detail .add-btn i:hover {
     cursor: pointer;
+}
+
+.product-detail .buy-block {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    padding: 20px 0;
+    margin: 20px 0 50px;
+}
+
+.buy-block .price {
+    font-size: 2rem;
+    font-weight: bold;
 }
 
 .add-btn input {

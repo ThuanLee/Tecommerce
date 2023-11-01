@@ -1,28 +1,39 @@
 import React, { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useSearchParams, useLocation, useNavigate } from 'react-router-dom'
 import { getCategoryList, searchProduct } from '../services/productService'
 import '../styles/SearchPage.css'
 import ProductList from '../components/ProductList'
+import PageList from '../components/PageList'
 
 export const SearchPage = () => {
   // Get query string from url
+  const location = useLocation()
+  const navigate = useNavigate()
   let [params] = useSearchParams()
-  let query = params.get('query')
+  let query = params.get('query') || ''
+  let page = params.get('page') || '1'
 
   const [searchResult, setSearchResult] = useState([])
   const [categoryList, setCategoryList] = useState([])
   const [productList, setProductList] = useState([])
+  const [lastPage, setLastPage] = useState(1)
+
+  const navigatePage = (page) => {
+    window.scrollTo(0, 0);
+    navigate(location.pathname + `?query=${query}&page=${page}`)
+  }
 
   useEffect(() => {
     const callAPI = async () => {
-      let searchData = await searchProduct(query)
-      let categoryData = await getCategoryList()
-      setSearchResult(searchData)
-      setProductList(searchData)
+      const res = await searchProduct(query, page)
+      const categoryData = await getCategoryList()
+      setSearchResult(res.data)
+      setProductList(res.data)
+      setLastPage(res.last_page)
 
       for (let category of categoryData) {
         let count = 0
-        for (let product of searchData) {
+        for (let product of res.data) {
           if (product.category === category.id) {
             count++
           }
@@ -35,7 +46,7 @@ export const SearchPage = () => {
     document.querySelector('#default').style.color = '#337CCF'
     document.querySelector('#all').style.color = '#337CCF'
     callAPI()
-  }, [query])
+  }, [query, page])
 
   const filterResult = (e) => {
     const categoryId = e.currentTarget.id
@@ -204,9 +215,10 @@ export const SearchPage = () => {
         {query !== '' &&
           <p className='search-term'>Kết quả tìm kiếm cho: <i className='text-muted'>'{query}'</i></p>
         }
-
-        <ProductList productList={productList} />
-
+        <div className='result-block'>
+          <ProductList productList={productList} />
+          <PageList page={parseInt(page)} last_page={lastPage} navigatePage={navigatePage} />
+        </div>
       </div>
 
     </div>

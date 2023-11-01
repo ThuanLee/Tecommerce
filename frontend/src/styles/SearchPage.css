@@ -14,8 +14,13 @@
 }
 
 .search-result {
-  width: 100%;
   padding-left: 100px;
+}
+
+.search-result .result-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .filter .category {

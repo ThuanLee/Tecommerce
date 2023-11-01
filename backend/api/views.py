@@ -10,11 +10,23 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from uuid import uuid4
 from .vnpay import vnpay
 from unidecode import unidecode
+from .pagination import ProductPagination
+
+
+# from api.load_data import load_data
+# @api_view(['GET'])
+# def importData(request):
+#     load_data()
+#     return Response("Import data successfully")
+
+pagination = ProductPagination()
 
 @api_view(['GET'])
 def getProductList(request):
-    serializer = ProductSerializer(Product.objects.all(), many=True)
-    return Response(serializer.data)
+    products = Product.objects.all()
+    products = pagination.paginate_queryset(products, request)
+    serializer = ProductSerializer(products, many=True)
+    return pagination.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
 def getProduct(request, productId):
@@ -23,8 +35,10 @@ def getProduct(request, productId):
 
 @api_view(['GET'])
 def getProductByCategory(request, categoryId):
-    serializer = ProductSerializer(Product.objects.filter(category=categoryId), many=True)
-    return Response(serializer.data)
+    products = Product.objects.filter(category=categoryId)
+    products = pagination.paginate_queryset(products, request)
+    serializer = ProductSerializer(products, many=True)
+    return pagination.get_paginated_response(serializer.data)
 
 @api_view(['GET'])
 def getCategoryList(request):
@@ -40,13 +54,14 @@ def searchProduct(request):
     products = Product.objects.all()
     searchResult = []
     for product in products:
-        print(unidecode(str(product)))
-        if query in unidecode(str(product)).lower():
-            searchResult.append(product)
+        query_arr = query.split(' ')
+        for key_word in query_arr:
+            if key_word in unidecode(str(product)).lower() or query in unidecode(str(product.category)).lower():
+                searchResult.append(product)
 
-    # products = Product.objects.filter(name__icontains=query)
+    searchResult = pagination.paginate_queryset(searchResult, request)
     serializer = ProductSerializer(searchResult, many=True)
-    return Response(serializer.data)
+    return pagination.get_paginated_response(serializer.data)
 
 @api_view(['POST'])
 def signup(request):
@@ -231,7 +246,6 @@ def createOrder(request):
     address = request.data.get('address')
     note = request.data.get('note')
     payment_method = request.data.get('payment_method')
-
 
     order = Order.objects.create(order_code=order_code,
                                 user_id=userId,

@@ -16,7 +16,7 @@ const ProductList = ({productList}) => {
 
                 <div className="contentBox">
                   <p className='product-name'>{product.name}</p>
-                  <span className='text-info'>{moneyFormat(product.price)}</span>
+                  <span className='text-primary'>{moneyFormat(product.price)}</span>
                 </div>
             </div>
           </Link>

@@ -43,9 +43,9 @@ function App() {
             <Route path='/payment/result/' element={<PaymentResultPage />} />
             <Route path='/order/all/' element={<OrderList />} />
           </Route>
-
+        
         </Routes>
-
+        
         <Footer />
 
         <ToastContainer

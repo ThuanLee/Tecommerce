@@ -1,7 +1,7 @@
 import axios from "../utils/axios";
 
-const getProductList = async () => {
-    return await axios.get('/api/products/all/')
+const getProductList = async (page) => {
+    return (await axios.get(`/api/products/all/?page=${page}`))
 }
 
 const getProduct = async(productId) => {
@@ -16,8 +16,8 @@ const getCategoryList = async () => {
     return await axios.get('/api/categories/')
 }
 
-const searchProduct = async(query) => {
-    return await axios.post('/api/search/', {'query': query})
+const searchProduct = async(query, page) => {
+    return await axios.post(`/api/search/?page=${page}`, {'query': query})
 }
 
 export {getProductList, getProduct, getCategoryList, getProductByCategory, searchProduct}

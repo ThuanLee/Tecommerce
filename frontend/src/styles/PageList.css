@@ -1,0 +1,32 @@
+.page-list {
+	margin-top: 50px;
+}
+
+.pagination {
+	display: flex;
+	list-style: none;
+	padding: 0;
+}
+
+.pagination li {
+	margin: 0 5px;
+	text-decoration: none;
+	color: gray;
+	color: black;
+	padding: 8px 16px;
+	border-radius: 5px;
+	transition: background-color 0.3s;
+}
+
+.pagination li:not(.active, .etc, .quick-page):hover {
+	background-color: rgb(179, 214, 238);
+}
+
+.pagination li:not(.etc):hover {
+	cursor: pointer;
+}
+
+.pagination .active {
+	color: white;
+	background-color: rgb(60, 134, 195);
+}

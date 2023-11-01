@@ -1,7 +1,7 @@
 version: '3.9'
 services:
   backend:
-    image: thuanlee215/tecommerce:backend
+    image: tecommerce:backend
     build:
       context: ./backend
       dockerfile: Dockerfile.backend
@@ -11,7 +11,7 @@ services:
     - ./backend:/app
 
   frontend:
-    image: thuanlee215/tecommerce:frontend
+    image: tecommerce:frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile.frontend

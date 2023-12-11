@@ -12,7 +12,7 @@ git clone <repo-url>
 
 ## Running The App
 
-Run command below to run server on port 80 (http)
+Run command below to run app
 ```bash
 docker compose up
 ```
@@ -24,4 +24,4 @@ docker-compose up --build
 
 ## Viewing The App
 
-Go to `http://127.0.0.1`
+Go to `http://127.0.0.1:3000`

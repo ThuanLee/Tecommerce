@@ -25,3 +25,5 @@ docker-compose up --build
 ## Viewing The App
 
 Go to `http://127.0.0.1:3000`
+
+![image](https://github.com/ThuanLee/Tecommerce/assets/100220743/0766af12-92f6-418e-89ef-065e575d037c)
